@@ -881,13 +881,13 @@
   .timeline-track {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 14px;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
   }
   .timeline-track::before {
     content: '';
     position: absolute;
-    top: 22px; left: 6%; right: 6%;
+    top: 22px; left: 5%; right: 5%;
     height: 2px;
     background: repeating-linear-gradient(
       90deg,
@@ -910,19 +910,19 @@
     display: grid;
     place-items: center;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     color: var(--preto);
   }
   .timeline-year {
     font-family: var(--font-display);
-    font-size: 26px;
+    font-size: 24px;
     color: var(--lama);
     line-height: 1;
     margin-bottom: 6px;
   }
   .timeline-event {
-    font-size: 12.5px;
+    font-size: 12px;
     line-height: 1.5;
     color: rgba(20,20,16,.72);
     padding: 0 2px;
@@ -1308,6 +1308,517 @@
   }
 
   /* ============================================================
+     MATINHA & MATINHA NOVA — trechos lendários
+     ============================================================ */
+  .matinha {
+    background: var(--preto);
+    color: var(--offwhite);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Bloco hero da Matinha — foto noturna full width */
+  .matinha-hero {
+    position: relative;
+    min-height: 480px;
+    background: var(--preto);
+    overflow: hidden;
+  }
+  .matinha-hero-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(90deg, rgba(20,20,16,.92) 0%, rgba(20,20,16,.78) 45%, rgba(20,20,16,.45) 100%),
+      url('assets/matinha_noite_atolada.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+  .matinha-hero-content {
+    position: relative;
+    z-index: 1;
+    padding: 90px 0;
+  }
+  .matinha-hero-grid {
+    max-width: 760px;
+  }
+  .matinha-hero .eyebrow {
+    color: var(--amarelo);
+  }
+  .matinha-hero .eyebrow::before {
+    background: var(--amarelo);
+  }
+  .matinha-hero h2 {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 7vw, 96px);
+    line-height: 0.92;
+    margin: 18px 0 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+  .matinha-hero h2 .accent {
+    color: var(--amarelo);
+    display: block;
+  }
+  .matinha-hero p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: rgba(245,240,230,.85);
+    max-width: 620px;
+  }
+  .matinha-hero p strong { color: var(--amarelo); }
+
+  /* Pilares numéricos */
+  .matinha-pilares {
+    background: var(--preto-suave);
+    padding: 60px 0;
+    border-top: 4px solid var(--amarelo);
+    border-bottom: 1px solid rgba(244,196,48,.15);
+  }
+  .matinha-pilares-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    text-align: center;
+  }
+  .matinha-pilar {
+    padding: 0 20px;
+  }
+  .matinha-pilar-num {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 7vw, 88px);
+    line-height: 0.9;
+    color: var(--amarelo);
+    margin-bottom: 14px;
+  }
+  .matinha-pilar-titulo {
+    font-family: var(--font-secondary);
+    font-size: 18px;
+    letter-spacing: 0.05em;
+    color: var(--offwhite);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .matinha-pilar-desc {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,240,230,.55);
+  }
+
+  /* Galeria narrativa em 3 atos */
+  .matinha-atos {
+    padding: 90px 0;
+    background: var(--preto);
+  }
+  .matinha-ato {
+    margin-bottom: 70px;
+  }
+  .matinha-ato:last-child { margin-bottom: 0; }
+  .matinha-ato-head {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 26px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(244,196,48,.18);
+  }
+  .matinha-ato-num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    color: var(--amarelo);
+    flex-shrink: 0;
+  }
+  .matinha-ato-titulo {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 44px);
+    line-height: 1;
+    color: var(--offwhite);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+  .matinha-ato-titulo .small {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(245,240,230,.55);
+    letter-spacing: 0.15em;
+    margin-left: 12px;
+    text-transform: uppercase;
+  }
+  .matinha-ato-fotos {
+    display: grid;
+    gap: 12px;
+  }
+  .matinha-ato-fotos.layout-5 {
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 220px 220px;
+  }
+  .matinha-ato-fotos.layout-5 > :nth-child(1) { grid-column: span 3; grid-row: span 2; }
+  .matinha-ato-fotos.layout-5 > :nth-child(2) { grid-column: span 3; }
+  .matinha-ato-fotos.layout-5 > :nth-child(3) { grid-column: span 2; }
+  .matinha-ato-fotos.layout-5 > :nth-child(4) { grid-column: span 2; }
+  .matinha-ato-fotos.layout-5 > :nth-child(5) { grid-column: span 2; }
+  .matinha-ato-fotos.layout-2 {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 320px;
+  }
+  .matinha-ato-fotos.layout-1 {
+    grid-template-columns: 1fr;
+  }
+  .matinha-foto {
+    overflow: hidden;
+    background: var(--preto-suave);
+    position: relative;
+    border: 1px solid rgba(244,196,48,.1);
+  }
+  .matinha-foto img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .8s cubic-bezier(.2,.8,.2,1);
+  }
+  .matinha-foto:hover img { transform: scale(1.05); }
+  .matinha-foto::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(20,20,16,.45), transparent 50%);
+    pointer-events: none;
+  }
+  .matinha-foto-amanhecer {
+    aspect-ratio: 16/9;
+    border: 2px solid var(--amarelo);
+    box-shadow: 0 0 0 1px rgba(20,20,16,1), 0 24px 60px rgba(244,196,48,.18);
+  }
+  .matinha-foto-amanhecer-legenda {
+    margin-top: 16px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--amarelo);
+  }
+  .matinha-foto-amanhecer-legenda small {
+    display: block;
+    margin-top: 4px;
+    font-weight: 400;
+    color: rgba(245,240,230,.5);
+    letter-spacing: 0.1em;
+  }
+
+  /* Aviso final */
+  .matinha-aviso {
+    background: var(--amarelo);
+    color: var(--preto);
+    padding: 32px 40px;
+    margin-top: 50px;
+    border: 3px solid var(--preto);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .matinha-aviso-icon {
+    font-size: 36px;
+    flex-shrink: 0;
+  }
+  .matinha-aviso-texto {
+    flex: 1;
+    min-width: 240px;
+  }
+  .matinha-aviso-texto strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .matinha-aviso-texto p {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: rgba(20,20,16,.78);
+  }
+
+  @media (max-width: 980px) {
+    .matinha-hero { min-height: 380px; }
+    .matinha-hero-content { padding: 60px 0; }
+    .matinha-pilares-grid { grid-template-columns: 1fr; gap: 36px; }
+    .matinha-pilares { padding: 50px 0; }
+    .matinha-atos { padding: 60px 0; }
+    .matinha-ato-fotos.layout-5 {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: 220px 220px 220px;
+    }
+    .matinha-ato-fotos.layout-5 > :nth-child(1) { grid-column: span 2; grid-row: span 1; }
+    .matinha-ato-fotos.layout-5 > :nth-child(2) { grid-column: span 2; }
+    .matinha-ato-fotos.layout-5 > :nth-child(3),
+    .matinha-ato-fotos.layout-5 > :nth-child(4),
+    .matinha-ato-fotos.layout-5 > :nth-child(5) { grid-column: span 1; }
+    .matinha-ato-fotos.layout-5 > :nth-child(5) { grid-column: span 2; }
+    .matinha-ato-fotos.layout-2 { grid-template-columns: 1fr; grid-auto-rows: 240px; }
+  }
+
+  /* ============================================================
+     CHURRASCO NO FOGO DE CHÃO
+     ============================================================ */
+  .churrasco {
+    background: var(--lama);
+    color: var(--offwhite);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Banner cabeça com foto panorâmica */
+  .churrasco-banner {
+    position: relative;
+    min-height: 460px;
+    background: var(--preto);
+    overflow: hidden;
+  }
+  .churrasco-banner-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(90deg, rgba(94,58,28,.92) 0%, rgba(94,58,28,.55) 50%, rgba(94,58,28,.25) 100%),
+      url('assets/churrasco_panoramica.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+  .churrasco-banner-content {
+    position: relative;
+    z-index: 1;
+    padding: 90px 0;
+  }
+  .churrasco-banner .eyebrow { color: var(--amarelo); }
+  .churrasco-banner .eyebrow::before { background: var(--amarelo); }
+  .churrasco-banner h2 {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 7vw, 92px);
+    line-height: 0.92;
+    margin: 18px 0 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    max-width: 720px;
+  }
+  .churrasco-banner h2 .accent { color: var(--amarelo); }
+  .churrasco-banner p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: rgba(245,240,230,.9);
+    max-width: 580px;
+  }
+  .churrasco-banner p strong { color: var(--amarelo); }
+
+  /* Três pilares */
+  .churrasco-pilares {
+    background: var(--preto);
+    padding: 60px 0;
+    border-top: 4px solid var(--amarelo);
+  }
+  .churrasco-pilares-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+  .churrasco-pilar {
+    text-align: center;
+    padding: 0 16px;
+  }
+  .churrasco-pilar-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    line-height: 1;
+  }
+  .churrasco-pilar-titulo {
+    font-family: var(--font-display);
+    font-size: 32px;
+    line-height: 1;
+    color: var(--amarelo);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .churrasco-pilar-desc {
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: rgba(245,240,230,.75);
+  }
+
+  /* Faixa horizontal: banda + ativações */
+  .churrasco-extras {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 50px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(244,196,48,.18);
+  }
+  .churrasco-extra-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px 26px;
+    background: rgba(244,196,48,.06);
+    border-left: 3px solid var(--amarelo);
+  }
+  .churrasco-extra-icon {
+    font-size: 36px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .churrasco-extra-texto {
+    flex: 1;
+  }
+  .churrasco-extra-texto strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1;
+    color: var(--amarelo);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .churrasco-extra-texto span {
+    display: block;
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(245,240,230,.75);
+  }
+
+  /* Mosaico de fotos do churrasco */
+  .churrasco-mosaico {
+    background: var(--lama);
+    padding: 70px 0 90px;
+  }
+  .churrasco-mosaico-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+  .churrasco-mosaico-grid .grid-coluna {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 14px;
+  }
+  .churrasco-foto {
+    overflow: hidden;
+    border: 2px solid rgba(20,20,16,.4);
+    background: var(--preto);
+    position: relative;
+    min-height: 220px;
+  }
+  .churrasco-foto.churrasco-foto-grande {
+    grid-row: span 2;
+    min-height: 460px;
+  }
+  .churrasco-foto img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .8s cubic-bezier(.2,.8,.2,1);
+  }
+  .churrasco-foto:hover img { transform: scale(1.05); }
+  .churrasco-foto-legenda {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 14px 18px;
+    background: linear-gradient(to top, rgba(20,20,16,.85), transparent);
+    color: var(--offwhite);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .churrasco-fechamento {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto;
+    padding-top: 30px;
+    border-top: 1px dashed rgba(245,240,230,.25);
+  }
+  .churrasco-fechamento p {
+    font-family: var(--font-secondary);
+    font-size: clamp(18px, 2.2vw, 24px);
+    line-height: 1.4;
+    color: var(--offwhite);
+    letter-spacing: 0.03em;
+    font-style: italic;
+  }
+  .churrasco-fechamento p .accent {
+    color: var(--amarelo);
+    font-style: normal;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  @media (max-width: 980px) {
+    .churrasco-banner { min-height: 380px; }
+    .churrasco-banner-content { padding: 60px 0; }
+    .churrasco-banner-bg {
+      background-image:
+        linear-gradient(180deg, rgba(94,58,28,.7) 0%, rgba(94,58,28,.92) 100%),
+        url('assets/churrasco_panoramica.jpg');
+    }
+    .churrasco-pilares-grid { grid-template-columns: 1fr; gap: 36px; }
+    .churrasco-pilares { padding: 50px 0; }
+    .churrasco-extras { grid-template-columns: 1fr; gap: 12px; margin-top: 36px; padding-top: 30px; }
+    .churrasco-extra-item { padding: 20px 22px; }
+    .churrasco-mosaico-grid { grid-template-columns: 1fr; }
+    .churrasco-foto.churrasco-foto-grande { min-height: 320px; }
+    .churrasco-mosaico { padding: 50px 0 70px; }
+  }
+
+  /* ============================================================
+     RECEPÇÃO + LARGADA — mosaico de 3 fotos
+     ============================================================ */
+  .dia-card-foto-mosaico {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 6px;
+    aspect-ratio: 16/10;
+    background: var(--preto);
+    overflow: hidden;
+    position: relative;
+  }
+  .dia-card-foto-mosaico-coluna {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 6px;
+  }
+  .dia-card-foto-mosaico .mosaico-cell {
+    overflow: hidden;
+    position: relative;
+  }
+  .dia-card-foto-mosaico .mosaico-cell img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .8s cubic-bezier(.2,.8,.2,1);
+  }
+  .dia-card:hover .mosaico-cell img { transform: scale(1.05); }
+  .dia-card-foto-mosaico .dia-card-tag {
+    z-index: 2;
+  }
+
+  @media (max-width: 720px) {
+    .dia-card-foto-mosaico {
+      grid-template-columns: 1fr;
+      grid-template-rows: 200px 100px 100px;
+      aspect-ratio: auto;
+    }
+    .dia-card-foto-mosaico-coluna {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr;
+    }
+  }
+
+  /* ============================================================
      GALERIA — mosaico
      ============================================================ */
   .galeria {
@@ -1323,7 +1834,7 @@
   .galeria-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 280px 280px;
+    grid-template-rows: 260px 260px 260px;
     gap: 12px;
   }
   .gal-item {
@@ -1343,8 +1854,10 @@
     background: linear-gradient(to top, rgba(20,20,16,.6), transparent 50%);
     pointer-events: none;
   }
+  /* Grid 9 fotos: foto 1 grande (2x2), foto 4 wide na linha 2, foto 8 wide na linha 3 */
   .gal-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
   .gal-item:nth-child(4) { grid-column: span 2; }
+  .gal-item:nth-child(8) { grid-column: span 2; }
 
   /* ============================================================
      LOCALIZAÇÃO — dois dias do evento
@@ -1845,6 +2358,25 @@
     font-family: var(--font-mono);
     letter-spacing: 0.05em;
   }
+  .footer-credit {
+    width: 100%;
+    text-align: center;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(245,240,230,.08);
+    color: rgba(245,240,230,.5);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+  .footer-credit strong {
+    color: var(--amarelo);
+    font-weight: 700;
+  }
+  .footer-credit small {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(245,240,230,.4);
+  }
 
   /* ============================================================
      MODAL — Cadastro inscrição em breve
@@ -1986,10 +2518,11 @@
     .cat-grid { grid-template-columns: 1fr; }
     .galeria-grid {
       grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: 200px 200px 200px;
+      grid-template-rows: repeat(5, 200px);
     }
     .gal-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
     .gal-item:nth-child(4) { grid-column: span 2; }
+    .gal-item:nth-child(8) { grid-column: span 2; }
     .local-dias { grid-template-columns: 1fr; gap: 32px; }
     .local-mapa-wrap { grid-template-columns: 1fr; gap: 24px; }
     .local-map { min-height: 340px; }
@@ -2046,12 +2579,12 @@
       <span class="nav-logo-text">Trilha dos<br/><span>Engenhos</span></span>
     </a>
     <div class="nav-links" id="navLinks">
-      <a href="#sobre">Sobre</a>
       <a href="#historia">História</a>
       <a href="#categorias">Categorias</a>
-      <a href="#realizacao">Organização</a>
-      <a href="#galeria">Galeria</a>
+      <a href="#matinha">Matinha</a>
+      <a href="#churrasco">Churrasco</a>
       <a href="#local">Local</a>
+      <a href="#realizacao">Organização</a>
       <a href="Captacao_Trilha_dos_Engenhos.html" class="nav-cta">Patrocinar</a>
     </div>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
@@ -2228,12 +2761,12 @@
         <div class="fundadores-foto-wrap">
           <div class="fundadores-foto">
             <img src="assets/fundadores_claudio_guardabelo.jpg"
-                 alt="Cláudio Almeida (à frente) e Valter — o Guarda Belo (ao fundo) — fundadores da Trilha dos Engenhos"
+                 alt="Valter — o Guarda Belo (à frente) e Cláudio Almeida (ao fundo) — fundadores da Trilha dos Engenhos"
                  loading="lazy" />
           </div>
           <div class="fundadores-legenda">
-            <span class="legenda-item"><span class="legenda-dot" style="background: var(--amarelo);"></span> Cláudio Almeida <span class="legenda-pos">à frente</span></span>
-            <span class="legenda-item"><span class="legenda-dot" style="background: var(--offwhite);"></span> Valter "Guarda Belo" <span class="legenda-pos">ao fundo</span></span>
+            <span class="legenda-item"><span class="legenda-dot" style="background: var(--amarelo);"></span> Valter "Guarda Belo" <span class="legenda-pos">à frente</span></span>
+            <span class="legenda-item"><span class="legenda-dot" style="background: var(--offwhite);"></span> Cláudio Almeida <span class="legenda-pos">ao fundo</span></span>
           </div>
         </div>
 
@@ -2244,7 +2777,7 @@
             A Trilha dos Engenhos foi <strong style="color: var(--amarelo);">idealizada há 28 anos por Cláudio Almeida</strong>, jipeiro visionário que sonhou com um evento que reunisse a comunidade off-road em torno das rotas históricas de Camaragibe.
           </p>
           <p style="color: rgba(245,240,230,.85);">
-            Ao lado dele, <strong style="color: var(--amarelo);">Valter — o Guarda Belo</strong>, <strong style="color: var(--amarelo);">Ari</strong> e outros pioneiros de Camaragibe arregaçaram as mangas para tirar a primeira edição do papel sob o grupo <strong style="color: var(--amarelo);">Camarajipe Off-Road</strong> — desbravando trilhas e construindo, edição após edição, a base sólida do que hoje é um dos maiores eventos 4x4 do Nordeste.
+            Ao lado dele, <strong style="color: var(--amarelo);">Valter — o Guarda Belo</strong>, <strong style="color: var(--amarelo);">Ari</strong>, <strong style="color: var(--amarelo);">Marco Lala</strong>, <strong style="color: var(--amarelo);">Marco Baicu</strong> e outros pioneiros de Camaragibe arregaçaram as mangas para tirar a primeira edição do papel sob o grupo <strong style="color: var(--amarelo);">Camarajipe Off-Road</strong> — desbravando trilhas e construindo, edição após edição, a base sólida do que hoje é um dos maiores eventos 4x4 do Nordeste.
           </p>
           <p style="color: rgba(245,240,230,.85);">
             Em <strong style="color: var(--amarelo);">2015</strong>, a <strong style="color: var(--amarelo);">Anarquia Jipeira</strong> recebeu o bastão e assumiu a organização, dando continuidade ao trabalho dos pioneiros. A 28ª edição é, antes de tudo, uma homenagem a esses fundadores — e a todos que mantiveram viva, ano após ano, essa tradição.
@@ -2253,6 +2786,8 @@
             <span class="fundador-tag">Cláudio Almeida</span>
             <span class="fundador-tag">Valter "Guarda Belo"</span>
             <span class="fundador-tag">Ari</span>
+            <span class="fundador-tag">Marco Lala</span>
+            <span class="fundador-tag">Marco Baicu</span>
             <span class="fundador-tag">+ pioneiros de Camaragibe</span>
           </div>
         </div>
@@ -2280,7 +2815,7 @@
         <div class="timeline-item">
           <div class="timeline-marker">I</div>
           <div class="timeline-year">1998</div>
-          <div class="timeline-event">A primeira edição. <strong>Cláudio Almeida</strong>, <strong>Guarda Belo</strong>, <strong>Ari</strong> e os pioneiros levam a ideia para os canaviais sob o grupo <strong>Camarajipe Off-Road</strong>.</div>
+          <div class="timeline-event">A primeira edição. <strong>Cláudio Almeida</strong>, <strong>Guarda Belo</strong>, <strong>Ari</strong>, <strong>Marco Lala</strong>, <strong>Marco Baicu</strong> e os pioneiros levam a ideia para os canaviais sob o grupo <strong>Camarajipe Off-Road</strong>.</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-marker">VII</div>
@@ -2301,6 +2836,11 @@
           <div class="timeline-marker">XXIV</div>
           <div class="timeline-year">2022</div>
           <div class="timeline-event">O <strong>Camarás Off-Road</strong> assume a categoria <strong>Turismo</strong>, abrindo o evento para famílias e jipeiros iniciantes.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker">XXVII</div>
+          <div class="timeline-year">2025</div>
+          <div class="timeline-event">A <strong>UNIJIPE</strong> passa a apoiar institucionalmente o evento, fortalecendo o vínculo da trilha com a comunidade jipeira do Grande Recife.</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-marker">XXVIII</div>
@@ -2328,13 +2868,15 @@
         <h3 class="cat-name">Extreme</h3>
         <div class="cat-tag">Para quem nasceu na lama</div>
         <p class="cat-desc">
-          Desafios intensos para veículos 4x4 preparados. Obstáculos técnicos, terreno bruto e o adrenalin que só os jipeiros experientes entendem.
+          Desafios intensos para veículos 4x4 preparados. Roteiro pesado pelas <strong style="color: var(--amarelo);">trilhas Matinha &amp; Matinha Nova</strong> — trechos lendários da mata atlântica que <strong style="color: var(--amarelo);">podem se estender até o amanhecer de domingo</strong>.
         </p>
         <ul class="cat-features">
           <li>Veículos 4x4 preparados</li>
-          <li>Trechos de alta dificuldade</li>
+          <li>Roteiro: Matinha &amp; Matinha Nova</li>
+          <li>Pode virar a noite até manhã de domingo</li>
           <li>Equipe de socorro mecânico em campo</li>
           <li>Briefing técnico obrigatório</li>
+          <li>Experiência prévia em off-road extremo</li>
         </ul>
       </div>
 
@@ -2344,17 +2886,207 @@
         <h3 class="cat-name">Turismo</h3>
         <div class="cat-tag">Aventura para toda a família</div>
         <p class="cat-desc">
-          Passeio ecológico para veículos 4x4 originais. Ideal para iniciantes, famílias e quem quer curtir a natureza sem abrir mão da emoção.
+          Passeio ecológico para veículos 4x4 originais. Roteiro leve com paradas guiadas e <strong style="color: var(--amarelo);">retorno antes do anoitecer de sábado</strong> — sem trechos de alta dificuldade técnica.
         </p>
         <ul class="cat-features">
           <li>Veículos 4x4 originais (de fábrica)</li>
-          <li>Trilha leve e segura</li>
-          <li>Roteiro guiado por monitores</li>
+          <li>Trilha leve com paradas guiadas</li>
+          <li>Retorno antes do anoitecer (sábado)</li>
+          <li>Roteiro alternativo, sem Matinha</li>
           <li>Crianças e acompanhantes bem-vindos</li>
+          <li>Sem pré-requisito de experiência</li>
         </ul>
       </div>
     </div>
   </div>
+</section>
+
+<!-- ====================== MATINHA & MATINHA NOVA ====================== -->
+<section class="matinha" id="matinha">
+
+  <!-- HERO impactante -->
+  <div class="matinha-hero">
+    <div class="matinha-hero-bg"></div>
+    <div class="matinha-hero-content">
+      <div class="container">
+        <div class="matinha-hero-grid">
+          <span class="eyebrow">Os Trechos Lendários</span>
+          <h2>A NOITE NÃO É O FIM.<br/><span class="accent">É METADE DA PROVA.</span></h2>
+          <p>
+            <strong>Matinha</strong> e <strong>Matinha Nova</strong> são os dois trechos mais esperados da Trilha dos Engenhos. Mata atlântica fechada, atoleiros que viraram nome de batismo, igarapés escuros e barrancos íngremes. Para a categoria <strong>Extreme</strong>, a aventura pode se estender pela noite e <strong>terminar só ao amanhecer de domingo</strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pilares numéricos -->
+  <div class="matinha-pilares">
+    <div class="container">
+      <div class="matinha-pilares-grid">
+        <div class="matinha-pilar">
+          <div class="matinha-pilar-num">02</div>
+          <div class="matinha-pilar-titulo">Trechos Lendários</div>
+          <div class="matinha-pilar-desc">Matinha &amp; Matinha Nova</div>
+        </div>
+        <div class="matinha-pilar">
+          <div class="matinha-pilar-num">~24h</div>
+          <div class="matinha-pilar-titulo">De Operação Contínua</div>
+          <div class="matinha-pilar-desc">Podem virar a noite</div>
+        </div>
+        <div class="matinha-pilar">
+          <div class="matinha-pilar-num">01</div>
+          <div class="matinha-pilar-titulo">Amanhecer Inesquecível</div>
+          <div class="matinha-pilar-desc">Saída ao raiar do dia</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Galeria narrativa em 3 atos -->
+  <div class="matinha-atos">
+    <div class="container">
+
+      <!-- ATO 1: Dia, a entrada técnica -->
+      <div class="matinha-ato">
+        <div class="matinha-ato-head">
+          <span class="matinha-ato-num">ATO 01</span>
+          <h3 class="matinha-ato-titulo">A entrada técnica<span class="small">· dia · sábado</span></h3>
+        </div>
+        <div class="matinha-ato-fotos layout-5">
+          <div class="matinha-foto"><img src="assets/matinha_dia_pelotao.jpg" alt="Pelotão de jipes da Anarquia atravessando atoleiro" loading="lazy" /></div>
+          <div class="matinha-foto"><img src="assets/matinha_dia_pausa.jpg" alt="Equipe enlameada em pausa técnica com tulipas" loading="lazy" /></div>
+          <div class="matinha-foto"><img src="assets/matinha_dia_trincheira.jpg" alt="Jeep escalando trincheira de barro vermelho" loading="lazy" /></div>
+          <div class="matinha-foto"><img src="assets/matinha_dia_barranco.jpg" alt="Toyota azul de lado em barranco íngreme" loading="lazy" /></div>
+          <div class="matinha-foto"><img src="assets/matinha_dia_patriota.jpg" alt="Jeep Patriota preso em vala com cabos de tração" loading="lazy" /></div>
+        </div>
+      </div>
+
+      <!-- ATO 2: Noite, a mata se fecha -->
+      <div class="matinha-ato">
+        <div class="matinha-ato-head">
+          <span class="matinha-ato-num">ATO 02</span>
+          <h3 class="matinha-ato-titulo">A mata se fecha<span class="small">· noite</span></h3>
+        </div>
+        <div class="matinha-ato-fotos layout-2">
+          <div class="matinha-foto"><img src="assets/matinha_noite_igarape.jpg" alt="Jeeps atravessando igarapé na mata atlântica à noite" loading="lazy" /></div>
+          <div class="matinha-foto"><img src="assets/matinha_noite_operacao.jpg" alt="Equipe Anarquia caminhando na vala lamacenta à noite" loading="lazy" /></div>
+        </div>
+      </div>
+
+      <!-- ATO 3: Amanhecer, a saída -->
+      <div class="matinha-ato">
+        <div class="matinha-ato-head">
+          <span class="matinha-ato-num">ATO 03</span>
+          <h3 class="matinha-ato-titulo">O amanhecer<span class="small">· domingo · 7h</span></h3>
+        </div>
+        <div class="matinha-ato-fotos layout-1">
+          <div class="matinha-foto matinha-foto-amanhecer"><img src="assets/matinha_amanhecer_grupo.jpg" alt="Pilotos cansados e felizes ao amanhecer, na saída da Matinha" loading="lazy" /></div>
+        </div>
+        <div class="matinha-foto-amanhecer-legenda">
+          A SAÍDA DA MATINHA · ~7H DE DOMINGO
+          <small>Quase 24 horas depois da largada, os primeiros raios de sol</small>
+        </div>
+      </div>
+
+      <!-- Aviso final -->
+      <div class="matinha-aviso">
+        <div class="matinha-aviso-icon">⚠️</div>
+        <div class="matinha-aviso-texto">
+          <strong>Trecho exclusivo da categoria Extreme.</strong>
+          <p>A categoria Turismo segue roteiro alternativo, com retorno antes do anoitecer de sábado e sem trechos de alta dificuldade técnica. Famílias e jipeiros iniciantes inscrevem-se na Turismo.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<!-- ====================== CHURRASCO NO FOGO DE CHÃO ====================== -->
+<section class="churrasco" id="churrasco">
+
+  <!-- Banner cabeça -->
+  <div class="churrasco-banner">
+    <div class="churrasco-banner-bg"></div>
+    <div class="churrasco-banner-content">
+      <div class="container">
+        <span class="eyebrow">Tradição da Casa</span>
+        <h2>FOGO DE CHÃO.<br/><span class="accent">SEM LIMITE.</span></h2>
+        <p>
+          Quando o último jipe sobe a última subida e a poeira finalmente assenta, o que espera os pilotos não é só água gelada. É <strong>costela espetada na lenha desde cedo</strong>, defumada no fogo de chão e servida <strong>sem limite de consumo</strong> — com <strong>banda ao vivo</strong> tocando e os patrocinadores recebendo a galera nos seus estandes. Porque jipeiro que se preza não volta da trilha com fome — nem sem música.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pilares -->
+  <div class="churrasco-pilares">
+    <div class="container">
+      <div class="churrasco-pilares-grid">
+        <div class="churrasco-pilar">
+          <div class="churrasco-pilar-icon">🔥</div>
+          <div class="churrasco-pilar-titulo">Fogo de Chão</div>
+          <div class="churrasco-pilar-desc">Método tradicional. Costelas inteiras espetadas na lenha. Defumação lenta desde a manhã.</div>
+        </div>
+        <div class="churrasco-pilar">
+          <div class="churrasco-pilar-icon">♾️</div>
+          <div class="churrasco-pilar-titulo">Sem Limite</div>
+          <div class="churrasco-pilar-desc">Servido à vontade para todos os participantes inscritos. Repete quantas vezes quiser.</div>
+        </div>
+        <div class="churrasco-pilar">
+          <div class="churrasco-pilar-icon">🤝</div>
+          <div class="churrasco-pilar-titulo">Já Incluso</div>
+          <div class="churrasco-pilar-desc">Faz parte da inscrição. Sem cobrança extra, sem ficha, sem complicação.</div>
+        </div>
+      </div>
+
+      <!-- Faixa: banda + ativações -->
+      <div class="churrasco-extras">
+        <div class="churrasco-extra-item">
+          <div class="churrasco-extra-icon">🎸</div>
+          <div class="churrasco-extra-texto">
+            <strong>Banda Ao Vivo</strong>
+            <span>Música rolando enquanto a brasa pega ponto. Som que mistura sertanejo, MPB e clássicos do rock — porque depois de horas de trilha, ninguém quer ouvir silêncio.</span>
+          </div>
+        </div>
+        <div class="churrasco-extra-item">
+          <div class="churrasco-extra-icon">🎪</div>
+          <div class="churrasco-extra-texto">
+            <strong>Ativações dos Patrocinadores</strong>
+            <span>Estandes das marcas espalhados pela área de chegada com brindes, degustações, sorteios e experiências de marca. É onde os patrocinadores entram em contato direto com os pilotos.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mosaico de fotos -->
+  <div class="churrasco-mosaico">
+    <div class="container">
+      <div class="churrasco-mosaico-grid">
+        <div class="churrasco-foto churrasco-foto-grande">
+          <img src="assets/foto_churrasco.jpg" alt="Três pilotos posando com tulipas em frente às costelas no fogo de chão — o coração do churrasco da Trilha" loading="lazy" />
+          <div class="churrasco-foto-legenda">PAPO DE JIPEIRO</div>
+        </div>
+        <div class="grid-coluna">
+          <div class="churrasco-foto">
+            <img src="assets/churrasco_fim_de_tarde.jpg" alt="Costelas douradas no fogo de chão ao fim de tarde, com sítio histórico ao fundo" loading="lazy" />
+            <div class="churrasco-foto-legenda">FIM DE TARDE NO FOGO</div>
+          </div>
+          <div class="churrasco-foto">
+            <img src="assets/churrasco_casal_selfie.jpg" alt="Casal sorrindo com camisas oficiais em frente ao fogo de chão" loading="lazy" />
+            <div class="churrasco-foto-legenda">A TRIBO INTEIRA</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="churrasco-fechamento">
+        <p>"Não é só uma trilha. É um pedaço de Camaragibe que a gente <span class="accent">come, bebe e leva no peito.</span>"</p>
+      </div>
+    </div>
+  </div>
+
 </section>
 
 <!-- ====================== REALIZAÇÃO & APOIO ====================== -->
@@ -2436,8 +3168,11 @@
     </div>
     <div class="galeria-grid">
       <div class="gal-item"><img src="assets/extreme_atoleiro.jpg" alt="Atoleiro com Toyota Bandeirante azul" loading="lazy" /></div>
+      <div class="gal-item"><img src="assets/extreme_jeep_vermelho_descida.jpg" alt="Jeep vermelho descendo barranco íngreme guiado pela equipe Anarquia Jipeira, com organizador narrando ao microfone" loading="lazy" /></div>
       <div class="gal-item"><img src="assets/extreme_toyota_subida.jpg" alt="Toyota Bandeirante subindo barranco íngreme" loading="lazy" /></div>
+      <div class="gal-item"><img src="assets/extreme_noite_cinematica.jpg" alt="Trilha noturna cinematográfica — jeep azul iluminado pela luz da floresta, equipe trabalhando ao fundo" loading="lazy" /></div>
       <div class="gal-item"><img src="assets/piloto_defender.jpg" alt="Defender Recife Club na trilha" loading="lazy" /></div>
+      <div class="gal-item"><img src="assets/extreme_picape_laranja_guincho.jpg" alt="Picape laranja sendo puxada por guincho — equipe da Anarquia Jipeira em ação técnica" loading="lazy" /></div>
       <div class="gal-item"><img src="assets/extreme_jeep_anarquia.jpg" alt="Jeep amarelo Anarquia Jipeira atolado" loading="lazy" /></div>
       <div class="gal-item"><img src="assets/organizacao_anarquia.jpg" alt="Organização Anarquia Jipeira em campo" loading="lazy" /></div>
       <div class="gal-item"><img src="assets/piloto_equipe_arranque.jpg" alt="Equipe Arranque PE" loading="lazy" /></div>
@@ -2457,19 +3192,29 @@
     <div class="local-dias">
 
       <!-- DIA 10 — RECEPÇÃO -->
-      <article class="dia-card">
-        <div class="dia-card-foto">
-          <img src="assets/local_recepcao_tomassa.jpg" alt="Portal da recepção da Trilha dos Engenhos no Restaurante Tomassa, em Aldeia" loading="lazy" />
+      <article class="dia-card dia-card-recepcao">
+        <div class="dia-card-foto-mosaico">
           <span class="dia-card-tag">Sexta · 10 Jul</span>
+          <div class="mosaico-cell">
+            <img src="assets/local_recepcao_tomassa.jpg" alt="Portal oficial da recepção da Trilha dos Engenhos no Restaurante Tomassa" loading="lazy" />
+          </div>
+          <div class="dia-card-foto-mosaico-coluna">
+            <div class="mosaico-cell">
+              <img src="assets/recepcao_banda.jpg" alt="Banda ao vivo na recepção da Trilha dos Engenhos" loading="lazy" />
+            </div>
+            <div class="mosaico-cell">
+              <img src="assets/recepcao_galera.jpg" alt="Galera reunida na recepção, taças nas mãos, camisas oficiais" loading="lazy" />
+            </div>
+          </div>
         </div>
         <div class="dia-card-corpo">
-          <div class="dia-numero">DIA 01</div>
-          <h3>Recepção</h3>
+          <div class="dia-numero">DIA 01 · A NOITE QUE ABRE</div>
+          <h3>Recepção com Banda Ao Vivo</h3>
           <div class="dia-horario">
             <span class="dia-horario-icon">🕕</span>
             <div>
               <strong>A partir das 18h</strong>
-              <small>Credenciamento, boas-vindas e confraternização</small>
+              <small>Música ao vivo, ativações dos patrocinadores e o reencontro da tribo</small>
             </div>
           </div>
           <div class="dia-endereco">
@@ -2477,7 +3222,7 @@
             <span>Estrada de Aldeia · Camaragibe/PE</span>
           </div>
           <p class="dia-desc">
-            A noite de abertura reúne pilotos, equipes e famílias para o credenciamento, retirada do kit e o tradicional aquecimento antes da trilha — comida boa, papo de jipeiro e a expectativa do dia seguinte no ar.
+            A noite de abertura é tradição da Trilha dos Engenhos: <strong>banda ao vivo</strong> esquentando o Tomassa, <strong>ativações dos patrocinadores</strong> espalhadas pelo espaço com brindes, degustações e experiências de marca, credenciamento descontraído e o reencontro de uma tribo que se vê uma vez por ano. Comida boa, taça na mão, papo de jipeiro e a expectativa do que vem pela manhã. Aqui não é antessala — é parte do evento.
           </p>
           <a href="https://www.google.com/maps/search/?api=1&query=Restaurante+Tomassa+Aldeia+Camaragibe" target="_blank" rel="noopener" class="dia-link">
             Ver no Google Maps <span class="arrow">↗</span>
@@ -2486,10 +3231,20 @@
       </article>
 
       <!-- DIA 11 — LARGADA -->
-      <article class="dia-card dia-card-destaque">
-        <div class="dia-card-foto">
-          <img src="assets/local_concentracao_parque.jpg" alt="Portal de largada da Trilha dos Engenhos no Parque Aldeia, com veículos passando" loading="lazy" />
+      <article class="dia-card dia-card-destaque dia-card-largada">
+        <div class="dia-card-foto-mosaico">
           <span class="dia-card-tag dia-card-tag-destaque">Sábado · 11 Jul</span>
+          <div class="mosaico-cell">
+            <img src="assets/local_concentracao_parque.jpg" alt="Portal de largada da Trilha dos Engenhos no Parque Aldeia, com veículos passando" loading="lazy" />
+          </div>
+          <div class="dia-card-foto-mosaico-coluna">
+            <div class="mosaico-cell">
+              <img src="assets/largada_maquinas_familia.jpg" alt="Vista aérea: jeep da Anarquia Jipeira, picape da Organização e família posando antes da largada" loading="lazy" />
+            </div>
+            <div class="mosaico-cell">
+              <img src="assets/largada_familia_25edicao.jpg" alt="Família com crianças usando walkie-talkies em frente ao portal LARGADA da 25ª edição" loading="lazy" />
+            </div>
+          </div>
         </div>
         <div class="dia-card-corpo">
           <div class="dia-numero">DIA 02 · ★ TRILHA</div>
@@ -2506,7 +3261,7 @@
             <span>Aldeia · Camaragibe/PE</span>
           </div>
           <p class="dia-desc">
-            O ponto de partida oficial. Os jipes se reúnem no Parque Aldeia para a concentração — equipes Extreme e Turismo recebem o briefing, e às 7h começa a aventura que percorre as rotas históricas dos engenhos.
+            O ponto de partida oficial. Os jipes se reúnem no Parque Aldeia para a concentração — equipes Extreme e Turismo recebem o briefing, e às 7h a aventura começa. <strong>Famílias inteiras se reúnem no portal de largada</strong>: avós, pais, filhos e netos com camisas oficiais, vendo de perto o pelotão partir. A Trilha dos Engenhos é tradição que passa de geração em geração — e a manhã de sábado é onde isso fica visível.
           </p>
           <a href="https://www.google.com/maps/search/?api=1&query=Parque+de+Aldeia+Camaragibe+PE" target="_blank" rel="noopener" class="dia-link">
             Ver no Google Maps <span class="arrow">↗</span>
@@ -2597,7 +3352,7 @@
       </div>
       <div class="faq-item">
         <button class="faq-q">Qual a diferença entre Extreme e Turismo?<span class="plus">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">A categoria Extreme é para veículos 4x4 preparados, com obstáculos técnicos e trechos de alta dificuldade. A categoria Turismo é para veículos originais, com trilha leve, roteiro guiado e clima de passeio ecológico em família.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">A categoria <strong>Extreme</strong> é para veículos 4x4 preparados, com roteiro pesado pelas <strong>trilhas Matinha e Matinha Nova</strong> — trechos lendários da mata atlântica que podem se estender pela noite até o amanhecer de domingo. Já a categoria <strong>Turismo</strong> é para veículos 4x4 originais, com trilha leve, paradas guiadas e retorno antes do anoitecer de sábado, em clima de passeio ecológico em família.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">Crianças e acompanhantes podem ir?<span class="plus">+</span></button>
@@ -2613,7 +3368,7 @@
       </div>
       <div class="faq-item">
         <button class="faq-q">Como funcionam os dois dias do evento?<span class="plus">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">A Trilha dos Engenhos acontece em dois dias. Na <strong>sexta-feira (10/jul) a partir das 18h</strong>, é a recepção no Restaurante Tomassa, na Estrada de Aldeia — momento de credenciamento, retirada de kits e confraternização. No <strong>sábado (11/jul) a partir das 7h</strong>, a concentração e largada acontecem no Parque Aldeia. Pilotos passam pelo briefing técnico e seguem para o roteiro nas categorias Extreme ou Turismo.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">A Trilha dos Engenhos acontece em dois dias. Na <strong>sexta-feira (10/jul) a partir das 18h</strong>, é a recepção no Restaurante Tomassa, na Estrada de Aldeia — com <strong>banda ao vivo</strong>, ativações dos patrocinadores, credenciamento e confraternização. No <strong>sábado (11/jul) a partir das 7h</strong>, a concentração e largada acontecem no Parque Aldeia. A categoria <strong>Turismo</strong> retorna antes do anoitecer; já a <strong>Extreme</strong> enfrenta as trilhas Matinha e Matinha Nova e pode se estender pela noite até o amanhecer de domingo. Ao fim, fogo de chão sem limite de consumo para todos os participantes.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">Onde fica Aldeia, Camaragibe?<span class="plus">+</span></button>
@@ -2681,6 +3436,7 @@
     <div class="footer-bottom">
       <span>© 2026 Trilha dos Engenhos · Anarquia Jipeira</span>
       <span>Aldeia · Camaragibe · Pernambuco · Brasil</span>
+      <span class="footer-credit">Site desenvolvido por <strong>Erasmo Morais</strong> <small>· Dono do Musgo</small></span>
     </div>
   </div>
 </footer>
@@ -2857,7 +3613,7 @@
       if (entry.isIntersecting) entry.target.classList.add('visible');
     });
   }, { threshold: 0.12 });
-  document.querySelectorAll('.sobre-grid, .stats, .historia-bloco, .fundadores, .documento-historico, .timeline, .cat-card, .org-principal, .apoio-card, .gal-item, .dia-card, .local-mapa-wrap, .depo-card, .faq-item').forEach(el => {
+  document.querySelectorAll('.sobre-grid, .stats, .historia-bloco, .fundadores, .documento-historico, .timeline, .cat-card, .matinha-pilar, .matinha-ato, .matinha-aviso, .churrasco-pilar, .churrasco-extra-item, .churrasco-foto, .churrasco-fechamento, .org-principal, .apoio-card, .gal-item, .dia-card, .local-mapa-wrap, .depo-card, .faq-item').forEach(el => {
     el.classList.add('reveal');
     observer.observe(el);
   });
