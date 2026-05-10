@@ -812,6 +812,24 @@
     padding: 40px;
     margin-bottom: 50px;
   }
+  /* Variante: imagem à direita, com tema verde-mata (2ª trilha Anarquia) */
+  .documento-historico.invertido {
+    grid-template-columns: 1.3fr 1fr;
+    border-color: rgba(45,58,31,.35);
+    background: linear-gradient(180deg, var(--offwhite) 0%, #ece8db 100%);
+  }
+  .documento-historico.invertido .documento-foto {
+    order: 2;
+  }
+  .documento-historico.invertido .documento-texto {
+    order: 1;
+  }
+  .documento-historico.invertido .documento-tag {
+    background: var(--verde-mata);
+  }
+  .documento-historico.invertido .documento-texto strong {
+    color: var(--verde-mata);
+  }
   .documento-foto {
     position: relative;
     border: 8px solid #fefefe;
@@ -847,8 +865,42 @@
     line-height: 1.75;
     color: rgba(20,20,16,.8);
   }
+  .documento-texto p + p {
+    margin-top: 14px;
+  }
   .documento-texto strong {
     color: var(--lama);
+  }
+  /* Lista de organizadores na variante invertida */
+  .organizadores-lista {
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: rgba(45,58,31,.06);
+    border-left: 3px solid var(--verde-mata);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    align-items: center;
+  }
+  .organizadores-lista-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--verde-mata);
+    width: 100%;
+    margin-bottom: 4px;
+  }
+  .organizador-chip {
+    display: inline-block;
+    background: var(--offwhite);
+    border: 1px solid rgba(45,58,31,.25);
+    padding: 4px 10px;
+    font-family: var(--font-secondary);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--preto);
   }
 
   @media (max-width: 720px) {
@@ -857,6 +909,8 @@
       padding: 28px;
       gap: 28px;
     }
+    .documento-historico.invertido .documento-foto { order: 1; }
+    .documento-historico.invertido .documento-texto { order: 2; }
   }
 
   /* Timeline horizontal */
@@ -2777,7 +2831,7 @@
             A Trilha dos Engenhos foi <strong style="color: var(--amarelo);">idealizada há 28 anos por Cláudio Almeida</strong>, jipeiro visionário que sonhou com um evento que reunisse a comunidade off-road em torno das rotas históricas de Camaragibe.
           </p>
           <p style="color: rgba(245,240,230,.85);">
-            Ao lado dele, <strong style="color: var(--amarelo);">Valter — o Guarda Belo</strong>, <strong style="color: var(--amarelo);">Ari</strong>, <strong style="color: var(--amarelo);">Marco Lala</strong>, <strong style="color: var(--amarelo);">Marco Baicu</strong> e outros pioneiros de Camaragibe arregaçaram as mangas para tirar a primeira edição do papel sob o grupo <strong style="color: var(--amarelo);">Camarajipe Off-Road</strong> — desbravando trilhas e construindo, edição após edição, a base sólida do que hoje é um dos maiores eventos 4x4 do Nordeste.
+            Ao lado dele, <strong style="color: var(--amarelo);">Valter — o Guarda Belo</strong>, <strong style="color: var(--amarelo);">Ari</strong>, <strong style="color: var(--amarelo);">Marco Lala</strong>, <strong style="color: var(--amarelo);">Marco Baicu</strong>, <strong style="color: var(--amarelo);">Wilder</strong>, <strong style="color: var(--amarelo);">Seu Lúcio</strong> e outros pioneiros de Camaragibe arregaçaram as mangas para tirar a primeira edição do papel sob o grupo <strong style="color: var(--amarelo);">Camarajipe Off-Road</strong> — desbravando trilhas e construindo, edição após edição, a base sólida do que hoje é um dos maiores eventos 4x4 do Nordeste.
           </p>
           <p style="color: rgba(245,240,230,.85);">
             Em <strong style="color: var(--amarelo);">2015</strong>, a <strong style="color: var(--amarelo);">Anarquia Jipeira</strong> recebeu o bastão e assumiu a organização, dando continuidade ao trabalho dos pioneiros. A 28ª edição é, antes de tudo, uma homenagem a esses fundadores — e a todos que mantiveram viva, ano após ano, essa tradição.
@@ -2788,6 +2842,8 @@
             <span class="fundador-tag">Ari</span>
             <span class="fundador-tag">Marco Lala</span>
             <span class="fundador-tag">Marco Baicu</span>
+            <span class="fundador-tag">Wilder</span>
+            <span class="fundador-tag">Seu Lúcio</span>
             <span class="fundador-tag">+ pioneiros de Camaragibe</span>
           </div>
         </div>
@@ -2808,6 +2864,34 @@
       </div>
     </div>
 
+    <!-- Peça documental: 2ª trilha sob Anarquia Jipeira -->
+    <div class="documento-historico invertido">
+      <div class="documento-foto">
+        <img src="assets/historia_homenagem_grupo.jpg" alt="Equipe da Anarquia Jipeira reunida na segunda edição da trilha sob sua organização" loading="lazy" />
+      </div>
+      <div class="documento-texto">
+        <span class="documento-tag">A Nova Era</span>
+        <h4>2ª TRILHA<br/>SOB A ANARQUIA</h4>
+        <p>
+          A imagem registra a <strong>segunda edição da Trilha dos Engenhos sob a organização da Anarquia Jipeira</strong> — momento em que o grupo já havia consolidado a transição da Camarajipe e começava a imprimir sua identidade ao evento.
+        </p>
+        <p>
+          Foi organizada por <strong>Robério</strong>, <strong>Henrique Mosquito</strong>, <strong>Marco Baiacu</strong>, <strong>Paulão</strong>, <strong>Guilherme Bonitão</strong>, <strong>Pêra</strong>, <strong>Jacaré</strong> e tantos outros e outras que mantiveram a tradição em pé.
+        </p>
+        <div class="organizadores-lista">
+          <span class="organizadores-lista-label">A Equipe da Anarquia</span>
+          <span class="organizador-chip">Robério</span>
+          <span class="organizador-chip">Henrique Mosquito</span>
+          <span class="organizador-chip">Marco Baiacu</span>
+          <span class="organizador-chip">Paulão</span>
+          <span class="organizador-chip">Guilherme Bonitão</span>
+          <span class="organizador-chip">Pêra</span>
+          <span class="organizador-chip">Jacaré</span>
+          <span class="organizador-chip">+ outros e outras</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Timeline -->
     <div class="timeline">
       <div class="timeline-label">A LINHA DO TEMPO</div>
@@ -2815,7 +2899,7 @@
         <div class="timeline-item">
           <div class="timeline-marker">I</div>
           <div class="timeline-year">1998</div>
-          <div class="timeline-event">A primeira edição. <strong>Cláudio Almeida</strong>, <strong>Guarda Belo</strong>, <strong>Ari</strong>, <strong>Marco Lala</strong>, <strong>Marco Baicu</strong> e os pioneiros levam a ideia para os canaviais sob o grupo <strong>Camarajipe Off-Road</strong>.</div>
+          <div class="timeline-event">A primeira edição. <strong>Cláudio Almeida</strong>, <strong>Guarda Belo</strong>, <strong>Ari</strong>, <strong>Marco Lala</strong>, <strong>Marco Baicu</strong>, <strong>Wilder</strong>, <strong>Seu Lúcio</strong> e os pioneiros levam a ideia para os canaviais sob o grupo <strong>Camarajipe Off-Road</strong>.</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-marker">VII</div>
