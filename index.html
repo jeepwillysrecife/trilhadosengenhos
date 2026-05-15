@@ -7,22 +7,11 @@
 <meta name="keywords" content="Trilha dos Engenhos, off-road Pernambuco, trilha de jipe, Camaragibe, Aldeia, 4x4, jipeiros, evento off-road Nordeste, UNIJIPE, Anarquia Jipeira" />
 <meta name="author" content="Anarquia Jipeira — Organização da Trilha dos Engenhos" />
 <meta property="og:title" content="28ª Trilha dos Engenhos — 11 de Julho de 2026" />
-<meta property="og:description" content="Um dos maiores eventos off-road do Nordeste. Aldeia, Camaragibe/PE. Inscrições em breve." />
-<meta property="og:image" content="https://www.trilhadosengenhos.com.br/assets/og-image-28trilha.jpg" />
-<meta property="og:image:secure_url" content="https://www.trilhadosengenhos.com.br/assets/og-image-28trilha.jpg" />
-<meta property="og:image:type" content="image/jpeg" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="28ª Trilha dos Engenhos — 11 de julho de 2026, Aldeia, Camaragibe/PE" />
+<meta property="og:description" content="Um dos maiores eventos off-road do Nordeste. Aldeia, Camaragibe/PE. Inscrições abertas para a 28ª edição." />
+<meta property="og:image" content="https://www.trilhadosengenhos.com.br/assets/logo.png" />
 <meta property="og:url" content="https://www.trilhadosengenhos.com.br/" />
 <meta property="og:type" content="website" />
-<meta property="og:locale" content="pt_BR" />
-<meta property="og:site_name" content="Trilha dos Engenhos" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="28ª Trilha dos Engenhos — 11 de Julho de 2026" />
-<meta name="twitter:description" content="Um dos maiores eventos off-road do Nordeste. Aldeia, Camaragibe/PE. Inscrições em breve." />
-<meta name="twitter:image" content="https://www.trilhadosengenhos.com.br/assets/og-image-28trilha.jpg" />
-<meta name="twitter:image:alt" content="28ª Trilha dos Engenhos — 11 de julho de 2026" />
 
 <title>28ª Trilha dos Engenhos — 11 Jul 2026 · Aldeia, Camaragibe/PE</title>
 
@@ -115,15 +104,117 @@
   }
 
   /* ============================================================
+     BANNER INSCRIÇÕES ABERTAS
+     ============================================================ */
+  .banner-inscricoes {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 101;
+    background: linear-gradient(90deg, var(--amarelo) 0%, #f5cc3e 50%, var(--amarelo) 100%);
+    color: var(--preto);
+    padding: 10px 0;
+    text-decoration: none;
+    display: block;
+    border-bottom: 2px solid var(--preto);
+    box-shadow: 0 2px 12px rgba(20,20,16,.25);
+    transition: padding .25s ease, background .25s ease;
+  }
+  .banner-inscricoes:hover {
+    background: linear-gradient(90deg, #f5cc3e 0%, var(--amarelo) 50%, #f5cc3e 100%);
+    padding: 12px 0;
+  }
+  .banner-inscricoes-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+  .banner-pulse {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--vermelho);
+    box-shadow: 0 0 0 0 rgba(192,57,43,.5);
+    animation: bannerPulse 1.8s infinite cubic-bezier(.4,0,.6,1);
+    flex-shrink: 0;
+  }
+  @keyframes bannerPulse {
+    0%   { box-shadow: 0 0 0 0   rgba(192,57,43,.65); }
+    70%  { box-shadow: 0 0 0 10px rgba(192,57,43,0); }
+    100% { box-shadow: 0 0 0 0   rgba(192,57,43,0); }
+  }
+  .banner-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--preto);
+    padding: 4px 10px;
+    background: var(--preto);
+    color: var(--amarelo);
+  }
+  .banner-texto {
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    color: var(--preto);
+    letter-spacing: 0.01em;
+  }
+  .banner-texto strong {
+    font-weight: 700;
+  }
+  .banner-cta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--preto);
+    border-bottom: 2px solid var(--preto);
+    padding-bottom: 2px;
+  }
+  .banner-arrow {
+    display: inline-block;
+    margin-left: 4px;
+    transition: transform .25s ease;
+  }
+  .banner-inscricoes:hover .banner-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Quando o banner está visível, body precisa de padding-top extra */
+  body.has-banner {
+    padding-top: 0;
+  }
+
+  @media (max-width: 720px) {
+    .banner-inscricoes { padding: 8px 0; }
+    .banner-inscricoes-inner { gap: 8px; }
+    .banner-label { font-size: 9.5px; padding: 3px 7px; }
+    .banner-texto { font-size: 12.5px; }
+    .banner-cta { font-size: 10.5px; }
+    /* Em mobile, esconde label e mostra só texto + CTA */
+    .banner-label { display: none; }
+  }
+
+  /* ============================================================
      NAVBAR
      ============================================================ */
   .nav {
-    position: fixed; top: 0; left: 0; right: 0;
+    position: fixed;
+    top: 42px;  /* abaixo do banner */
+    left: 0; right: 0;
     z-index: 100;
     padding: 16px 0;
     background: rgba(20,20,16,0.0);
     backdrop-filter: blur(0);
-    transition: background .35s ease, backdrop-filter .35s ease, padding .35s ease;
+    transition: background .35s ease, backdrop-filter .35s ease, padding .35s ease, top .35s ease;
+  }
+
+  @media (max-width: 720px) {
+    .nav { top: 36px; }
   }
   .nav.scrolled {
     background: rgba(20,20,16,0.92);
@@ -179,6 +270,34 @@
   }
   .nav-cta:hover { background: var(--offwhite) !important; border-color: var(--offwhite); }
   .nav-cta::after { display: none; }
+
+  /* Variante LIVE — inscrições abertas */
+  .nav-cta-live {
+    background: var(--vermelho) !important;
+    border-color: var(--vermelho) !important;
+    color: var(--offwhite) !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-cta-live:hover {
+    background: var(--preto) !important;
+    border-color: var(--vermelho) !important;
+    color: var(--amarelo) !important;
+  }
+  .nav-cta-pulse {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--amarelo);
+    box-shadow: 0 0 0 0 rgba(244,196,48,.55);
+    animation: navCtaPulse 1.6s infinite cubic-bezier(.4,0,.6,1);
+  }
+  @keyframes navCtaPulse {
+    0%   { box-shadow: 0 0 0 0   rgba(244,196,48,.7); }
+    70%  { box-shadow: 0 0 0 8px rgba(244,196,48,0); }
+    100% { box-shadow: 0 0 0 0   rgba(244,196,48,0); }
+  }
 
   .nav-toggle { display: none; color: var(--offwhite); font-size: 28px; }
 
@@ -387,6 +506,28 @@
   .btn-primary:hover {
     transform: translate(-2px, -2px);
     box-shadow: 8px 8px 0 var(--vermelho);
+  }
+
+  /* Variante LIVE — para quando as inscrições estão abertas */
+  .btn-primary-live {
+    position: relative;
+    overflow: visible;
+  }
+  .btn-primary-live .btn-pulse {
+    position: relative;
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--vermelho);
+    margin-right: 4px;
+    box-shadow: 0 0 0 0 rgba(192,57,43,.55);
+    animation: btnLivePulse 1.6s infinite cubic-bezier(.4,0,.6,1);
+    vertical-align: middle;
+  }
+  @keyframes btnLivePulse {
+    0%   { box-shadow: 0 0 0 0   rgba(192,57,43,.65); }
+    70%  { box-shadow: 0 0 0 12px rgba(192,57,43,0); }
+    100% { box-shadow: 0 0 0 0   rgba(192,57,43,0); }
   }
 
   .btn-secondary {
@@ -2444,7 +2585,7 @@
   }
 
   /* ============================================================
-     MODAL — Cadastro inscrição em breve
+     MODAL — Redirect para inscrições abertas
      ============================================================ */
   .modal-overlay {
     position: fixed; inset: 0;
@@ -2484,14 +2625,30 @@
     font-family: var(--font-mono);
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.25em;
-    color: var(--lama);
+    letter-spacing: 0.22em;
+    color: var(--vermelho);
     text-transform: uppercase;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .modal-pulse {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--vermelho);
+    box-shadow: 0 0 0 0 rgba(192,57,43,.55);
+    animation: modalPulse 1.6s infinite cubic-bezier(.4,0,.6,1);
+  }
+  @keyframes modalPulse {
+    0%   { box-shadow: 0 0 0 0   rgba(192,57,43,.7); }
+    70%  { box-shadow: 0 0 0 10px rgba(192,57,43,0); }
+    100% { box-shadow: 0 0 0 0   rgba(192,57,43,0); }
   }
   .modal h3 {
     font-family: var(--font-display);
-    font-size: 38px;
+    font-size: 44px;
     line-height: 1;
     color: var(--preto);
     margin-bottom: 14px;
@@ -2499,54 +2656,64 @@
   }
   .modal h3 .accent { color: var(--lama); }
   .modal p.modal-desc {
-    font-size: 15px;
-    color: rgba(20,20,16,.7);
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: rgba(20,20,16,.78);
     margin-bottom: 28px;
   }
-  .form-group { margin-bottom: 16px; }
-  .form-group label {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
+  .modal p.modal-desc strong {
+    color: var(--lama);
+  }
+
+  /* CTA primário grande do modal */
+  .modal-cta-wrap {
+    margin: 24px 0 18px;
+  }
+  .modal-cta-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 22px 24px;
+    background: var(--vermelho);
+    color: var(--offwhite);
+    font-family: var(--font-display);
+    font-size: 22px;
     text-transform: uppercase;
-    color: var(--preto);
-    margin-bottom: 6px;
+    letter-spacing: 0.04em;
+    border: 3px solid var(--preto);
+    box-shadow: 6px 6px 0 var(--preto);
+    text-decoration: none;
+    transition: all .25s ease;
   }
-  .form-group input, .form-group select {
-    width: 100%;
-    padding: 14px 16px;
-    border: 2px solid var(--preto);
-    background: var(--offwhite);
-    font-family: var(--font-body);
-    font-size: 15px;
-    color: var(--preto);
-    transition: border-color .2s;
-  }
-  .form-group input:focus, .form-group select:focus {
-    outline: none;
-    border-color: var(--lama);
-  }
-  .form-submit {
-    width: 100%;
-    padding: 18px;
+  .modal-cta-primary:hover {
     background: var(--preto);
     color: var(--amarelo);
-    font-family: var(--font-display);
-    font-size: 20px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-top: 12px;
-    transition: all .2s;
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0 var(--vermelho);
   }
-  .form-submit:hover {
-    background: var(--amarelo);
-    color: var(--preto);
+  .modal-cta-primary .arrow {
+    font-size: 20px;
+    display: inline-block;
+    transition: transform .25s ease;
+  }
+  .modal-cta-primary:hover .arrow {
+    transform: translateX(4px);
+  }
+  .modal-link-info {
+    text-align: center;
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: rgba(20,20,16,.5);
+    letter-spacing: 0.05em;
   }
   .form-alt {
     text-align: center;
-    margin-top: 18px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px dashed rgba(20,20,16,.15);
     font-size: 13px;
     color: rgba(20,20,16,.6);
   }
@@ -2555,23 +2722,6 @@
     font-weight: 600;
     text-decoration: underline;
   }
-  .form-success {
-    display: none;
-    text-align: center;
-    padding: 20px 0;
-  }
-  .form-success.active { display: block; }
-  .form-success .check {
-    font-size: 56px;
-    color: var(--verde-folha);
-    margin-bottom: 12px;
-  }
-  .form-success h4 {
-    font-family: var(--font-display);
-    font-size: 28px;
-    margin-bottom: 12px;
-  }
-  .form-success p { color: rgba(20,20,16,.7); }
 
   /* ============================================================
      RESPONSIVO
@@ -2636,6 +2786,16 @@
 </head>
 <body>
 
+<!-- ====================== BANNER ANÚNCIO INSCRIÇÕES ====================== -->
+<a href="http://trilha.anarquiajipeira.com.br" target="_blank" rel="noopener" class="banner-inscricoes" id="bannerInscricoes">
+  <div class="container banner-inscricoes-inner">
+    <span class="banner-pulse"></span>
+    <span class="banner-label">INSCRIÇÕES ABERTAS</span>
+    <span class="banner-texto">Garanta sua vaga na <strong>28ª Trilha dos Engenhos</strong></span>
+    <span class="banner-cta">Inscreva-se agora <span class="banner-arrow">→</span></span>
+  </div>
+</a>
+
 <!-- ====================== NAV ====================== -->
 <nav class="nav" id="nav">
   <div class="container nav-inner">
@@ -2650,6 +2810,9 @@
       <a href="#churrasco">Churrasco</a>
       <a href="#local">Local</a>
       <a href="#realizacao">Organização</a>
+      <a href="http://trilha.anarquiajipeira.com.br" target="_blank" rel="noopener" class="nav-cta nav-cta-live">
+        <span class="nav-cta-pulse"></span>Inscrever
+      </a>
       <a href="Captacao_Trilha_dos_Engenhos.html" class="nav-cta">Patrocinar</a>
     </div>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
@@ -2695,10 +2858,11 @@
         </div>
 
         <div class="cta-stack">
-          <button class="btn btn-primary" onclick="openModal()">
-            QUERO ME INSCREVER
+          <a href="http://trilha.anarquiajipeira.com.br" target="_blank" rel="noopener" class="btn btn-primary btn-primary-live">
+            <span class="btn-pulse"></span>
+            INSCREVA-SE AGORA
             <span class="arrow">→</span>
-          </button>
+          </a>
           <a href="Captacao_Trilha_dos_Engenhos.html" class="btn btn-secondary">
             QUERO PATROCINAR
             <span class="arrow">→</span>
@@ -3438,8 +3602,8 @@
     </div>
     <div class="faq-list">
       <div class="faq-item">
-        <button class="faq-q">Quando abrem as inscrições?<span class="plus">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">As inscrições para a 28ª edição abrem em breve. Cadastre seu WhatsApp clicando em "Quero me inscrever" e você será o primeiro a saber quando o link for liberado.</div></div>
+        <button class="faq-q">Como faço para me inscrever?<span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">As inscrições para a 28ª edição estão <strong>abertas</strong>. Acesse <a href="http://trilha.anarquiajipeira.com.br" target="_blank" rel="noopener" style="color: var(--lama); text-decoration: underline; font-weight: 600;">trilha.anarquiajipeira.com.br</a> para garantir sua vaga. Inscreva-se logo — vagas são limitadas, principalmente na categoria Extreme.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">Posso participar com um carro 4x4 original (sem preparação)?<span class="plus">+</span></button>
@@ -3477,12 +3641,13 @@
 <section class="cta-final">
   <div class="container cta-final-inner">
     <h2>NÃO FIQUE<br/>DE FORA DA <span class="accent">28ª.</span></h2>
-    <p>Garanta seu lugar entre os primeiros a saber quando as inscrições abrirem — ou venha ver sua marca subir nessa trilha.</p>
+    <p>As inscrições estão <strong style="color: var(--amarelo);">abertas</strong>. Garanta sua vaga agora — vagas limitadas, principalmente na categoria Extreme. Patrocinadores: chegou a hora de associar sua marca à maior tradição off-road do Nordeste.</p>
     <div class="cta-final-buttons">
-      <button class="btn btn-primary" onclick="openModal()">
-        AVISE-ME DA INSCRIÇÃO
+      <a href="http://trilha.anarquiajipeira.com.br" target="_blank" rel="noopener" class="btn btn-primary btn-primary-live">
+        <span class="btn-pulse"></span>
+        INSCREVA-SE AGORA
         <span class="arrow">→</span>
-      </button>
+      </a>
       <a href="Captacao_Trilha_dos_Engenhos.html" class="btn btn-secondary">
         VER MÍDIA KIT
         <span class="arrow">→</span>
@@ -3541,55 +3706,25 @@
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">×</button>
     <div id="modalForm">
-      <div class="modal-eyebrow">Inscrições · 28ª Edição</div>
-      <h3>EM <span class="accent">BREVE.</span></h3>
-      <p class="modal-desc">As inscrições para a 28ª Trilha dos Engenhos serão abertas em breve. Deixe seu contato e seja o primeiro a saber quando o link for liberado.</p>
+      <div class="modal-eyebrow">
+        <span class="modal-pulse"></span>
+        Inscrições Abertas · 28ª Edição
+      </div>
+      <h3>VAI <span class="accent">INSCREVER?</span></h3>
+      <p class="modal-desc">As inscrições para a 28ª Trilha dos Engenhos estão <strong>liberadas</strong>. Garanta sua vaga agora — vagas limitadas, principalmente na categoria Extreme.</p>
 
-      <!--
-        FORMULÁRIO via Web3Forms (gratuito).
-        Para ativar:
-          1. Crie uma conta em https://web3forms.com (não precisa de servidor)
-          2. Cole sua chave de acesso no campo "access_key" abaixo
-        Como alternativa, o botão de WhatsApp logo abaixo já funciona sem nenhuma configuração.
-      -->
-      <form id="leadForm" action="https://api.web3forms.com/submit" method="POST">
-        <input type="hidden" name="access_key" value="SUA_CHAVE_WEB3FORMS_AQUI" />
-        <input type="hidden" name="subject" value="Novo lead — Trilha dos Engenhos" />
-        <input type="hidden" name="from_name" value="Site Trilha dos Engenhos" />
-        <input type="checkbox" name="botcheck" style="display:none" />
+      <div class="modal-cta-wrap">
+        <a href="http://trilha.anarquiajipeira.com.br" target="_blank" rel="noopener" class="modal-cta-primary">
+          IR PARA INSCRIÇÃO
+          <span class="arrow">↗</span>
+        </a>
+        <p class="modal-link-info">trilha.anarquiajipeira.com.br</p>
+      </div>
 
-        <div class="form-group">
-          <label for="nome">Nome completo</label>
-          <input type="text" id="nome" name="nome" required placeholder="Seu nome" />
-        </div>
-        <div class="form-group">
-          <label for="whats">WhatsApp</label>
-          <input type="tel" id="whats" name="whatsapp" required placeholder="(81) 9XXXX-XXXX" />
-        </div>
-        <div class="form-group">
-          <label for="perfil">Eu sou</label>
-          <select id="perfil" name="perfil" required>
-            <option value="">Selecione...</option>
-            <option value="Piloto Extreme">Piloto interessado na categoria Extreme</option>
-            <option value="Piloto Turismo">Piloto interessado na categoria Turismo</option>
-            <option value="Patrocinador">Empresa interessada em patrocinar</option>
-            <option value="Publico">Público / curioso / família</option>
-          </select>
-        </div>
-
-        <button type="submit" class="form-submit">QUERO SER AVISADO →</button>
-
-        <p class="form-alt">
-          Prefere falar direto?
-          <a href="https://wa.me/5581996717733?text=Ol%C3%A1!%20Quero%20ser%20avisado%20quando%20as%20inscri%C3%A7%C3%B5es%20da%2028%C2%AA%20Trilha%20dos%20Engenhos%20abrirem." target="_blank" rel="noopener">Mande mensagem no WhatsApp</a>
-        </p>
-      </form>
-    </div>
-
-    <div class="form-success" id="formSuccess">
-      <div class="check">✓</div>
-      <h4>BELEZA, JIPEIRO!</h4>
-      <p>Seu cadastro foi recebido. Vamos te avisar pelo WhatsApp assim que as inscrições abrirem. Boa trilha!</p>
+      <p class="form-alt">
+        Tem dúvidas antes de inscrever?
+        <a href="https://wa.me/5581996717733?text=Ol%C3%A1!%20Tenho%20uma%20d%C3%BAvida%20sobre%20a%2028%C2%AA%20Trilha%20dos%20Engenhos." target="_blank" rel="noopener">Mande mensagem no WhatsApp</a>
+      </p>
     </div>
   </div>
 </div>
@@ -3650,45 +3785,6 @@
   });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal();
-  });
-
-  // Máscara simples para WhatsApp
-  document.getElementById('whats').addEventListener('input', (e) => {
-    let v = e.target.value.replace(/\D/g, '').slice(0, 11);
-    if (v.length > 6) v = v.replace(/(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
-    else if (v.length > 2) v = v.replace(/(\d{2})(\d{0,5})/, '($1) $2');
-    e.target.value = v;
-  });
-
-  // Submissão do formulário (Web3Forms)
-  document.getElementById('leadForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-    const accessKey = form.querySelector('[name=access_key]').value;
-
-    // Se a chave Web3Forms NÃO foi configurada, redireciona para WhatsApp
-    if (accessKey === 'SUA_CHAVE_WEB3FORMS_AQUI' || !accessKey) {
-      const nome = formData.get('nome');
-      const perfil = formData.get('perfil');
-      const msg = `Olá! Meu nome é ${nome} e sou ${perfil}. Quero ser avisado quando as inscrições da 28ª Trilha dos Engenhos abrirem.`;
-      window.open(`https://wa.me/5581996717733?text=${encodeURIComponent(msg)}`, '_blank');
-      document.getElementById('modalForm').style.display = 'none';
-      document.getElementById('formSuccess').classList.add('active');
-      return;
-    }
-
-    try {
-      const res = await fetch(form.action, { method: 'POST', body: formData });
-      if (res.ok) {
-        document.getElementById('modalForm').style.display = 'none';
-        document.getElementById('formSuccess').classList.add('active');
-      } else {
-        alert('Tivemos um problema. Por favor, fale com a gente pelo WhatsApp.');
-      }
-    } catch (err) {
-      alert('Tivemos um problema. Por favor, fale com a gente pelo WhatsApp.');
-    }
   });
 
   /* ============================================================
