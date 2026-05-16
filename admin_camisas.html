@@ -455,6 +455,7 @@ td.ts { font-family: var(--font-mono); font-size: 11px; color: rgba(245,240,230,
             <th>Função</th>
             <th>WhatsApp</th>
             <th>Itens pedidos</th>
+            <th>Total</th>
             <th>Observações</th>
             <th>Data/hora</th>
           </tr>
@@ -630,6 +631,12 @@ function renderTabela() {
       return `<span class="item-pill ${cls}">${t}</span>`;
     }).join('');
 
+    /* Total de peças do pedido */
+    const totalPedido = (p.itens || '').split('|').reduce((acc, parte) => {
+      const m = parte.trim().match(/x(\d+)$/i);
+      return acc + (m ? parseInt(m[1]) : 0);
+    }, 0);
+
     const waLink = p.whatsapp
       ? `<a class="whats-link" href="https://wa.me/55${p.whatsapp.replace(/\D/g,'')}" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -646,6 +653,10 @@ function renderTabela() {
       <td class="funcao-cell"><span class="funcao-tag ${ftCls}">${p.funcao || '—'}</span></td>
       <td>${waLink}</td>
       <td class="itens-cell">${itensHtml || '—'}</td>
+      <td style="text-align:center">
+        <span style="font-family:var(--font-secondary);font-size:20px;color:var(--amarelo)">${totalPedido}</span>
+        <div style="font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.08em;color:rgba(245,240,230,.3);margin-top:2px">PÇS</div>
+      </td>
       <td style="font-size:12px;color:rgba(245,240,230,.5);max-width:180px">${p.observacoes || '<span style="color:rgba(245,240,230,.2)">—</span>'}</td>
       <td class="ts">${p.timestamp || '—'}</td>
     </tr>`;
@@ -655,55 +666,166 @@ function renderTabela() {
 function exportarXLS() {
   if (!todosOsPedidos.length) { alert('Nenhum pedido para exportar.'); return; }
 
-  /* Monta array de linhas */
-  const cabecalho = ['Timestamp','Nome','Função','WhatsApp','Email','Itens','Observações'];
-  const linhas = todosOsPedidos.map(p => [
-    p.timestamp || '', p.nome || '', p.funcao || '',
-    p.whatsapp  || '', p.email || '', p.itens  || '', p.observacoes || ''
+  const wb    = XLSX.utils.book_new();
+  const hoje  = new Date().toLocaleDateString('pt-BR');
+  const TAMANHOS = ['PP','P','M','G','GG','XG','XXG'];
+
+  /* ─────────────────────────────────────────────────
+     CORES / ESTILOS (objeto de estilo do SheetJS-pro)
+     SheetJS community não suporta estilo nativo,
+     mas montamos a estrutura de dados com merge cells
+     e larguras para um resultado limpo no Excel.
+  ───────────────────────────────────────────────── */
+
+  /* ══════════════════════════════════════
+     ABA 1 — PEDIDOS DETALHADOS
+  ══════════════════════════════════════ */
+  const aoPedidos = [];
+
+  /* Título */
+  aoPedidos.push(['28ª TRILHA DOS ENGENHOS — PEDIDOS DE CAMISAS']);
+  aoPedidos.push([`Gerado em: ${hoje}   |   Total de pedidos: ${todosOsPedidos.length}`]);
+  aoPedidos.push([]); // linha vazia
+
+  /* Cabeçalho */
+  aoPedidos.push([
+    '#', 'Data/Hora', 'Nome', 'Função', 'WhatsApp', 'E-mail',
+    'Camisa Trilha PP', 'Camisa Trilha P', 'Camisa Trilha M',
+    'Camisa Trilha G',  'Camisa Trilha GG','Camisa Trilha XG','Camisa Trilha XXG',
+    'Inst. PP','Inst. P','Inst. M','Inst. G','Inst. GG','Inst. XG','Inst. XXG',
+    'Total Trilha', 'Total Inst.', 'TOTAL GERAL', 'Observações'
   ]);
 
-  const wb = XLSX.utils.book_new();
-  const ws = XLSX.utils.aoa_to_sheet([cabecalho, ...linhas]);
+  /* Linhas de dados */
+  todosOsPedidos.forEach((p, idx) => {
+    const qtTrilha = {};
+    const qtInst   = {};
+    TAMANHOS.forEach(t => { qtTrilha[t] = 0; qtInst[t] = 0; });
 
-  /* Larguras de coluna */
-  ws['!cols'] = [
-    {wch:20},{wch:28},{wch:18},{wch:16},{wch:28},{wch:60},{wch:30}
+    (p.itens || '').split('|').forEach(parte => {
+      const m = parte.trim().match(/^(Trilha|Institucional)\s+(\w+)\s+x(\d+)$/i);
+      if (!m) return;
+      const isInst = m[1].toLowerCase().includes('institucional');
+      const sz  = m[2].toUpperCase();
+      const qty = parseInt(m[3]);
+      if (isInst) { if (qtInst[sz]   !== undefined) qtInst[sz]   += qty; }
+      else        { if (qtTrilha[sz] !== undefined) qtTrilha[sz] += qty; }
+    });
+
+    const totalTrilha = TAMANHOS.reduce((a,t) => a + qtTrilha[t], 0);
+    const totalInst   = TAMANHOS.reduce((a,t) => a + qtInst[t],   0);
+
+    aoPedidos.push([
+      idx + 1,
+      p.timestamp || '',
+      p.nome      || '',
+      p.funcao    || '',
+      p.whatsapp  || '',
+      p.email     || '',
+      ...TAMANHOS.map(t => qtTrilha[t] || ''),
+      ...TAMANHOS.map(t => qtInst[t]   || ''),
+      totalTrilha || '',
+      totalInst   || '',
+      totalTrilha + totalInst,
+      p.observacoes || ''
+    ]);
+  });
+
+  /* Linha de totais gerais */
+  aoPedidos.push([]); // linha vazia
+  const totRow = ['', '', 'TOTAL GERAL', '', '', ''];
+  TAMANHOS.forEach(t => {
+    totRow.push(todosOsPedidos.reduce((a, p) => {
+      const m = (p.itens||'').match(new RegExp(`Trilha\\s+${t}\\s+x(\\d+)`,'i'));
+      return a + (m ? parseInt(m[1]) : 0);
+    }, 0) || '');
+  });
+  TAMANHOS.forEach(t => {
+    totRow.push(todosOsPedidos.reduce((a, p) => {
+      const m = (p.itens||'').match(new RegExp(`Institucional\\s+${t}\\s+x(\\d+)`,'i'));
+      return a + (m ? parseInt(m[1]) : 0);
+    }, 0) || '');
+  });
+  const gtTrilha = TAMANHOS.reduce((a,t) => a + todosOsPedidos.reduce((b,p) => {
+    const m = (p.itens||'').match(new RegExp(`Trilha\\s+${t}\\s+x(\\d+)`,'i'));
+    return b + (m ? parseInt(m[1]) : 0);
+  }, 0), 0);
+  const gtInst = TAMANHOS.reduce((a,t) => a + todosOsPedidos.reduce((b,p) => {
+    const m = (p.itens||'').match(new RegExp(`Institucional\\s+${t}\\s+x(\\d+)`,'i'));
+    return b + (m ? parseInt(m[1]) : 0);
+  }, 0), 0);
+  totRow.push(gtTrilha, gtInst, gtTrilha + gtInst, '');
+  aoPedidos.push(totRow);
+
+  const wsPedidos = XLSX.utils.aoa_to_sheet(aoPedidos);
+  wsPedidos['!cols'] = [
+    {wch:4},{wch:22},{wch:28},{wch:18},{wch:16},{wch:26},
+    {wch:8},{wch:8},{wch:8},{wch:8},{wch:8},{wch:8},{wch:8},
+    {wch:8},{wch:8},{wch:8},{wch:8},{wch:8},{wch:8},{wch:8},
+    {wch:13},{wch:12},{wch:13},{wch:28}
+  ];
+  /* Merge do título */
+  wsPedidos['!merges'] = [
+    { s:{r:0,c:0}, e:{r:0,c:23} },
+    { s:{r:1,c:0}, e:{r:1,c:23} }
   ];
 
-  /* Aba de resumo por tamanho */
-  const tamanhos = ['PP','P','M','G','GG','XG','XXG'];
+  /* ══════════════════════════════════════
+     ABA 2 — RESUMO POR TAMANHO
+  ══════════════════════════════════════ */
   const resumo = {};
-  tamanhos.forEach(t => { resumo[t] = { trilha: 0, inst: 0 }; });
+  TAMANHOS.forEach(t => { resumo[t] = { trilha: 0, inst: 0 }; });
 
   todosOsPedidos.forEach(p => {
     (p.itens || '').split('|').forEach(parte => {
       const m = parte.trim().match(/^(Trilha|Institucional)\s+(\w+)\s+x(\d+)$/i);
       if (!m) return;
-      const tipo = m[1].toLowerCase().includes('institucional') ? 'inst' : 'trilha';
-      const sz   = m[2].toUpperCase();
-      const qty  = parseInt(m[3]);
-      if (resumo[sz]) resumo[sz][tipo] += qty;
+      const isInst = m[1].toLowerCase().includes('institucional');
+      const sz  = m[2].toUpperCase();
+      const qty = parseInt(m[3]);
+      if (resumo[sz]) {
+        if (isInst) resumo[sz].inst   += qty;
+        else        resumo[sz].trilha += qty;
+      }
     });
   });
 
-  const wsRes = XLSX.utils.aoa_to_sheet([
-    ['Tamanho','Camisa da Trilha','Institucional','Total'],
-    ...tamanhos.map(t => [
-      t, resumo[t].trilha, resumo[t].inst, resumo[t].trilha + resumo[t].inst
-    ]),
-    ['TOTAL',
-      tamanhos.reduce((a,t)=>a+resumo[t].trilha,0),
-      tamanhos.reduce((a,t)=>a+resumo[t].inst,0),
-      tamanhos.reduce((a,t)=>a+resumo[t].trilha+resumo[t].inst,0)
-    ]
-  ]);
-  wsRes['!cols'] = [{wch:12},{wch:20},{wch:20},{wch:12}];
+  const totalTrilhaGeral = TAMANHOS.reduce((a,t) => a + resumo[t].trilha, 0);
+  const totalInstGeral   = TAMANHOS.reduce((a,t) => a + resumo[t].inst,   0);
+  const totalGeral       = totalTrilhaGeral + totalInstGeral;
 
-  XLSX.utils.book_append_sheet(wb, ws,    'Pedidos');
-  XLSX.utils.book_append_sheet(wb, wsRes, 'Resumo por tamanho');
+  const aoResumo = [];
+  aoResumo.push(['28ª TRILHA DOS ENGENHOS — RESUMO DE PRODUÇÃO']);
+  aoResumo.push([`Gerado em: ${hoje}`]);
+  aoResumo.push([]);
+  aoResumo.push(['TAMANHO', 'CAMISA DA TRILHA', 'CAMISA INSTITUCIONAL', 'TOTAL POR TAMANHO']);
+  TAMANHOS.forEach(t => {
+    aoResumo.push([
+      t,
+      resumo[t].trilha || 0,
+      resumo[t].inst   || 0,
+      resumo[t].trilha + resumo[t].inst
+    ]);
+  });
+  aoResumo.push([]); // linha vazia
+  aoResumo.push(['TOTAL POR TIPO', totalTrilhaGeral, totalInstGeral, totalGeral]);
+  aoResumo.push([]);
+  aoResumo.push(['TOTAL GERAL DE PEÇAS', '', '', totalGeral]);
 
-  const data = new Date().toISOString().slice(0,10);
-  XLSX.writeFile(wb, `pedidos_camisas_28trilha_${data}.xlsx`);
+  const wsResumo = XLSX.utils.aoa_to_sheet(aoResumo);
+  wsResumo['!cols'] = [{wch:22},{wch:22},{wch:22},{wch:22}];
+  wsResumo['!merges'] = [
+    { s:{r:0,c:0}, e:{r:0,c:3} },
+    { s:{r:1,c:0}, e:{r:1,c:3} },
+    { s:{r:8,c:0}, e:{r:8,c:2} },  // TOTAL POR TIPO label
+    { s:{r:10,c:0},e:{r:10,c:2} }  // TOTAL GERAL label
+  ];
+
+  XLSX.utils.book_append_sheet(wb, wsPedidos, 'Pedidos');
+  XLSX.utils.book_append_sheet(wb, wsResumo,  'Resumo de Produção');
+
+  const dataArq = new Date().toISOString().slice(0,10);
+  XLSX.writeFile(wb, `camisas_28trilha_${dataArq}.xlsx`);
 }
 </script>
 </body>
