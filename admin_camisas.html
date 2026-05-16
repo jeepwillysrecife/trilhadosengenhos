@@ -523,14 +523,28 @@ async function carregarDados() {
 
   try {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 10000); // timeout 10s
-    const url = SHEET_URL + '?action=get&t=' + Date.now();
+    const timer = setTimeout(() => controller.abort(), 12000);
+
+    /* Google Apps Script exige o parâmetro na query string para doGet */
+    const url = SHEET_URL + '?t=' + Date.now();
     const res  = await fetch(url, { signal: controller.signal });
     clearTimeout(timer);
-    const json = await res.json();
-    todosOsPedidos = Array.isArray(json) ? json : (json.data || []);
+
+    const texto = await res.text();
+
+    try {
+      const json = JSON.parse(texto);
+      todosOsPedidos = Array.isArray(json) ? json : (json.data || []);
+    } catch {
+      /* Resposta não é JSON válido — provavelmente erro de autorização */
+      todosOsPedidos = [];
+      console.warn('Resposta do Apps Script não é JSON:', texto.slice(0, 200));
+    }
+
   } catch (err) {
-    todosOsPedidos = SHEET_URL === 'COLE_SUA_URL_AQUI' ? dadosDemo() : [];
+    /* Timeout, CORS local ou outro erro de rede */
+    todosOsPedidos = [];
+    console.warn('Erro ao buscar dados:', err.message);
   }
 
   renderStats();
