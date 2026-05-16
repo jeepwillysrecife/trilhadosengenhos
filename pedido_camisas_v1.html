@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pedido de Camisas · 28ª Trilha dos Engenhos</title>
+
+<link rel="icon" type="image/png" href="assets/logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   RESET & BASE — idêntico ao index.html
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --verde-mata:  #2d3a1f;
+  --verde-folha: #4a5d2f;
+  --lama:        #5e3a1c;
+  --lama-claro:  #8b5a2b;
+  --amarelo:     #f4c430;
+  --amarelo-esc: #d4a017;
+  --offwhite:    #f5f0e6;
+  --creme:       #ebe2d0;
+  --preto:       #141410;
+  --preto-suave: #232318;
+  --vermelho:    #c0392b;
+
+  --font-display:   'Anton', 'Bebas Neue', Impact, sans-serif;
+  --font-secondary: 'Bebas Neue', sans-serif;
+  --font-body:      'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:      'JetBrains Mono', 'Courier New', monospace;
+
+  --shadow-hard: 6px 6px 0 var(--preto);
+  --shadow-soft: 0 14px 40px rgba(0,0,0,.35);
+}
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--offwhite);
+  color: var(--preto);
+  line-height: 1.6;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(rgba(94,58,28,.04) 1px, transparent 1px),
+    radial-gradient(rgba(45,58,31,.03) 1px, transparent 1px);
+  background-size: 24px 24px, 40px 40px;
+  background-position: 0 0, 12px 20px;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+::selection { background: var(--amarelo); color: var(--preto); }
+
+.container { max-width: 820px; margin: 0 auto; padding: 0 24px; }
+
+/* ── NAV ─────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 16px 0;
+  background: rgba(20,20,16,0);
+  backdrop-filter: blur(0);
+  transition: background .35s, backdrop-filter .35s, padding .35s;
+}
+.nav.scrolled {
+  background: rgba(20,20,16,0.92);
+  backdrop-filter: blur(12px);
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(244,196,48,.15);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  max-width: 1280px; margin: 0 auto; padding: 0 24px;
+}
+.nav-logo { display: flex; align-items: center; gap: 12px; color: var(--offwhite); }
+.nav-logo img { height: 44px; width: auto; }
+.nav-logo-text {
+  font-family: var(--font-display);
+  font-size: 18px; line-height: 1;
+  text-transform: uppercase; letter-spacing: 0.02em;
+}
+.nav-logo-text span { color: var(--amarelo); }
+.nav-back {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--offwhite);
+  padding: 8px 16px;
+  border: 1px solid rgba(244,196,48,.3);
+  transition: all .2s;
+}
+.nav-back:hover { color: var(--amarelo); border-color: var(--amarelo); }
+.nav-back svg { width: 14px; height: 14px; stroke: currentColor; flex-shrink: 0; }
+
+/* ── PAGE HERO ───────────────────────────────────── */
+.page-hero {
+  background: var(--preto);
+  padding: 120px 0 64px;
+  position: relative; overflow: hidden;
+  color: var(--offwhite);
+}
+.page-hero::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 6px;
+  background: repeating-linear-gradient(135deg, var(--amarelo) 0, var(--amarelo) 14px, var(--preto) 14px, var(--preto) 28px);
+  z-index: 3;
+}
+.page-hero::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 6px;
+  background: repeating-linear-gradient(135deg, var(--amarelo) 0, var(--amarelo) 14px, var(--preto) 14px, var(--preto) 28px);
+  z-index: 3;
+}
+.page-hero-bg {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(105deg, rgba(20,20,16,.92) 0%, rgba(20,20,16,.72) 55%, rgba(20,20,16,.88) 100%),
+    url('assets/historia_jeep_lamacento.jpg') center/cover no-repeat;
+}
+.page-hero-grain {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: .12; mix-blend-mode: overlay;
+}
+.page-hero-inner { position: relative; z-index: 4; }
+
+.hero-edition {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--amarelo);
+  margin-bottom: 22px; padding: 7px 14px;
+  border: 1px solid rgba(244,196,48,.4); border-radius: 2px;
+  background: rgba(244,196,48,.05);
+}
+.hero-edition .dot {
+  width: 8px; height: 8px;
+  background: var(--vermelho); border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(192,57,43,.6); }
+  50%      { box-shadow: 0 0 0 10px rgba(192,57,43,0); }
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 9vw, 100px);
+  line-height: 0.88; letter-spacing: -0.01em; text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.page-title .accent {
+  color: var(--amarelo); display: inline-block; position: relative;
+}
+.page-title .accent::after {
+  content: '';
+  position: absolute; left: -4%; bottom: 6%; width: 108%; height: 11px;
+  background: var(--vermelho); z-index: -1;
+  transform: skewX(-8deg); opacity: .85;
+}
+.page-sub {
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(245,240,230,.5);
+  padding-top: 16px; margin-top: 16px;
+  border-top: 1px solid rgba(245,240,230,.12);
+}
+
+/* ── FORM AREA ───────────────────────────────────── */
+.form-area { padding: 60px 0 80px; }
+
+/* ── FIELD CARD ──────────────────────────────────── */
+.fc {
+  background: #fff;
+  border: 1px solid rgba(45,58,31,.12);
+  border-top: 3px solid var(--verde-mata);
+  padding: 28px 28px 24px;
+  margin-bottom: 16px;
+}
+.fc-label {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--verde-mata);
+  margin-bottom: 22px;
+  display: flex; align-items: center; gap: 12px;
+}
+.fc-label::after { content: ''; flex: 1; height: 1px; background: rgba(45,58,31,.12); }
+
+/* ── FIELDS ──────────────────────────────────────── */
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(20,20,16,.45);
+}
+.field input,
+.field select {
+  font-family: var(--font-body); font-size: 15px; color: var(--preto);
+  background: var(--offwhite);
+  border: 1.5px solid rgba(45,58,31,.18);
+  padding: 11px 14px; outline: none;
+  transition: border-color .15s, background .15s;
+  appearance: none; -webkit-appearance: none; border-radius: 0;
+}
+.field input:focus, .field select:focus { border-color: var(--verde-mata); background: #fff; }
+.field input::placeholder { color: rgba(20,20,16,.28); }
+.field-err {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--vermelho); display: none; margin-top: 2px;
+}
+
+/* ── TIPO CAMISA ─────────────────────────────────── */
+.tipo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22px; }
+.tipo-card {
+  border: 2px solid rgba(45,58,31,.18);
+  padding: 18px 16px; cursor: pointer;
+  transition: all .18s; background: var(--offwhite);
+  position: relative;
+}
+.tipo-card:hover { border-color: var(--verde-mata); }
+.tipo-card.sel {
+  border-color: var(--verde-mata); background: var(--verde-mata);
+  color: var(--offwhite); box-shadow: 4px 4px 0 var(--preto);
+}
+.tc-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 3px 8px; margin-bottom: 12px;
+}
+.tc-b-oficial { background: var(--amarelo); color: var(--preto); }
+.tc-b-extra   { background: var(--lama); color: var(--offwhite); }
+.tc-icon { display: block; margin-bottom: 10px; }
+.tc-icon svg { width: 28px; height: 28px; stroke: currentColor; }
+.tipo-card:not(.sel) .tc-icon svg { stroke: var(--verde-mata); }
+.tc-nome {
+  font-family: var(--font-secondary); font-size: 21px; letter-spacing: 0.03em; line-height: 1;
+  margin-bottom: 3px;
+}
+.tc-desc {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  color: rgba(20,20,16,.4);
+}
+.tipo-card.sel .tc-desc { color: rgba(245,240,230,.55); }
+
+/* ── TAMANHOS ─────────────────────────────────────── */
+.sub-label {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(20,20,16,.45); margin-bottom: 10px;
+}
+.sz-row { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; margin-bottom: 6px; }
+.sz-btn {
+  padding: 10px 3px;
+  font-family: var(--font-secondary); font-size: 15px; letter-spacing: 0.04em;
+  border: 1.5px solid rgba(45,58,31,.2);
+  background: var(--offwhite); color: var(--preto);
+  cursor: pointer; text-align: center; border-radius: 0;
+  transition: all .14s;
+}
+.sz-btn:hover { border-color: var(--verde-mata); color: var(--verde-mata); }
+.sz-btn.sel {
+  background: var(--amarelo); border-color: var(--preto); color: var(--preto);
+  box-shadow: 3px 3px 0 var(--preto);
+}
+.global-err {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--vermelho); display: none; margin-bottom: 12px;
+}
+
+/* ── QUANTIDADE ──────────────────────────────────── */
+.qty-wrap { margin-top: 18px; margin-bottom: 22px; }
+.qty-row { display: flex; align-items: center; justify-content: space-between; }
+.qty-label { font-size: 15px; color: var(--preto); }
+.qty-ctrl { display: flex; align-items: center; }
+.qty-btn {
+  width: 38px; height: 38px;
+  background: var(--preto-suave); color: var(--offwhite);
+  font-size: 22px; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background .12s; border: none;
+}
+.qty-btn:hover { background: var(--verde-mata); }
+.qty-val {
+  width: 50px; height: 38px;
+  border-top: 1.5px solid rgba(45,58,31,.2); border-bottom: 1.5px solid rgba(45,58,31,.2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-secondary); font-size: 22px; color: var(--preto);
+  background: var(--offwhite);
+}
+
+/* ── BTN ADICIONAR ───────────────────────────────── */
+.btn-add {
+  width: 100%; padding: 14px;
+  font-family: var(--font-display); font-size: 18px; letter-spacing: 0.06em; text-transform: uppercase;
+  border: 2px dashed var(--verde-mata); background: transparent; color: var(--verde-mata);
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: all .15s; border-radius: 0;
+}
+.btn-add:hover {
+  background: var(--verde-mata); color: var(--offwhite);
+  border-style: solid; box-shadow: 4px 4px 0 var(--preto);
+}
+.btn-add svg { width: 18px; height: 18px; stroke: currentColor; flex-shrink: 0; }
+
+/* ── DIVIDER ─────────────────────────────────────── */
+.divider { border: none; border-top: 1px solid rgba(45,58,31,.12); margin: 22px 0; }
+
+/* ── LISTA DE ITENS ──────────────────────────────── */
+.itens-lista { margin-bottom: 8px; min-height: 20px; }
+.lista-vazia {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(20,20,16,.28); padding: 4px 0;
+}
+.item-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  background: var(--offwhite); border-left: 3px solid var(--verde-mata);
+  margin-bottom: 6px;
+  animation: slideIn .2s ease both;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.item-badge {
+  font-family: var(--font-mono);
+  font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 3px 9px; flex-shrink: 0;
+}
+.ib-trilha { background: var(--verde-mata); color: var(--amarelo); }
+.ib-inst   { background: var(--lama); color: var(--offwhite); }
+.item-info { flex: 1; font-size: 14px; color: var(--preto); }
+.item-info strong { font-weight: 700; }
+.item-qty {
+  font-family: var(--font-secondary); font-size: 18px; letter-spacing: 0.04em;
+  color: var(--verde-mata); white-space: nowrap;
+}
+.item-del {
+  width: 30px; height: 30px; background: transparent;
+  border: 1.5px solid rgba(20,20,16,.2); color: rgba(20,20,16,.35);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all .12s; border-radius: 0;
+}
+.item-del:hover { background: var(--vermelho); border-color: var(--vermelho); color: #fff; }
+.item-del svg { width: 13px; height: 13px; stroke: currentColor; }
+
+/* ── RESUMO ──────────────────────────────────────── */
+.resumo {
+  background: var(--verde-mata); color: var(--offwhite);
+  padding: 24px 26px; position: relative; margin-top: 16px;
+}
+.resumo::before {
+  content: 'RESUMO';
+  position: absolute; top: -11px; left: 20px;
+  background: var(--amarelo); color: var(--preto);
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.25em; text-transform: uppercase; padding: 2px 10px;
+}
+.res-row {
+  display: flex; justify-content: space-between;
+  font-size: 14px; color: rgba(245,240,230,.7);
+  padding: 4px 0; border-bottom: 1px solid rgba(245,240,230,.07);
+}
+.res-row.head {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--amarelo); padding-top: 10px;
+}
+.res-row.head:first-child { padding-top: 0; }
+.res-row.indent { padding-left: 14px; font-size: 13px; }
+.res-total {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-secondary); font-size: 24px; letter-spacing: 0.04em;
+  color: var(--amarelo);
+  padding-top: 14px; margin-top: 6px; border-top: 1px solid rgba(245,240,230,.18);
+}
+.res-empty {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(245,240,230,.3);
+}
+
+/* ── TEXTAREA OBS ────────────────────────────────── */
+textarea {
+  font-family: var(--font-body); font-size: 15px; color: var(--preto);
+  background: var(--offwhite); border: 1.5px solid rgba(45,58,31,.18);
+  padding: 12px 14px; width: 100%; resize: vertical; min-height: 72px;
+  outline: none; border-radius: 0;
+  transition: border-color .15s, background .15s;
+}
+textarea:focus { border-color: var(--verde-mata); background: #fff; }
+textarea::placeholder { color: rgba(20,20,16,.28); }
+
+/* ── BTN ENVIAR ──────────────────────────────────── */
+.btn-enviar {
+  width: 100%; margin-top: 20px; padding: 20px 28px;
+  font-family: var(--font-display); font-size: 24px; letter-spacing: 0.06em; text-transform: uppercase;
+  background: var(--amarelo); color: var(--preto);
+  border: 2px solid var(--amarelo); box-shadow: 6px 6px 0 var(--vermelho);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  cursor: pointer; border-radius: 0;
+  transition: all .2s cubic-bezier(.2,.8,.2,1);
+}
+.btn-enviar:hover { transform: translate(-2px,-2px); box-shadow: 8px 8px 0 var(--vermelho); }
+.btn-enviar:active { transform: translate(0,0); box-shadow: 4px 4px 0 var(--vermelho); }
+.btn-enviar .arrow { font-family: var(--font-mono); font-size: 18px; transition: transform .2s; }
+.btn-enviar:hover .arrow { transform: translateX(6px); }
+
+/* ── SUCCESS ─────────────────────────────────────── */
+.success-area { display: none; padding: 80px 0; text-align: center; }
+.success-check {
+  width: 80px; height: 80px; background: var(--verde-mata);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 28px;
+}
+.success-check svg { width: 40px; height: 40px; stroke: var(--amarelo); }
+.success-title {
+  font-family: var(--font-display);
+  font-size: clamp(42px,8vw,80px); letter-spacing: 0.02em; text-transform: uppercase; line-height: 0.9;
+  margin-bottom: 10px;
+}
+.success-title .accent { color: var(--amarelo); }
+.success-sub {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(20,20,16,.45); margin-bottom: 32px;
+}
+.success-detail {
+  background: var(--verde-mata); color: var(--offwhite);
+  padding: 24px 28px; max-width: 480px; margin: 0 auto 28px;
+  text-align: left; font-size: 14px; line-height: 1.8; position: relative;
+}
+.success-detail::before {
+  content: 'SEU PEDIDO';
+  position: absolute; top: -11px; left: 20px;
+  background: var(--amarelo); color: var(--preto);
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.25em; text-transform: uppercase; padding: 2px 10px;
+}
+.success-detail strong { color: var(--amarelo); }
+.btn-novo {
+  display: inline-flex; align-items: center; justify-content: space-between; gap: 14px;
+  padding: 14px 24px;
+  font-family: var(--font-display); font-size: 18px;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  background: transparent; color: var(--preto); border: 2px solid var(--preto);
+  cursor: pointer; transition: all .2s; border-radius: 0;
+}
+.btn-novo:hover { background: var(--preto); color: var(--amarelo); }
+
+/* ── FOOTER ──────────────────────────────────────── */
+.footer { background: var(--preto); color: var(--offwhite); padding: 32px 0; border-top: 3px solid var(--amarelo); }
+.footer-bottom {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  max-width: 1280px; margin: 0 auto; padding: 0 24px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(245,240,230,.4);
+}
+.footer-bottom strong { color: var(--amarelo); }
+
+/* ── RESPONSIVE ──────────────────────────────────── */
+@media (max-width: 600px) {
+  .field-grid { grid-template-columns: 1fr; }
+  .tipo-grid  { grid-template-columns: 1fr; }
+  .sz-row     { grid-template-columns: repeat(4,1fr); }
+  .page-hero  { padding: 100px 0 48px; }
+  .fc         { padding: 20px 16px; }
+  .btn-enviar { font-size: 20px; padding: 16px 20px; }
+  .resumo     { padding: 20px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─────────────────── NAV ─────────────────────── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/logo.png" alt="28ª Trilha dos Engenhos" onerror="this.style.display='none'">
+      <span class="nav-logo-text">Trilha dos <span>Engenhos</span></span>
+    </a>
+    <a href="index.html" class="nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+      </svg>
+      Voltar ao site
+    </a>
+  </div>
+</nav>
+
+<!-- ─────────────────── PAGE HERO ───────────────── -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-grain"></div>
+  <div class="page-hero-inner container">
+    <div class="hero-edition">
+      <span class="dot"></span>
+      EXCLUSIVO · MEMBROS DA ORGANIZAÇÃO
+    </div>
+    <h1 class="page-title">
+      PEDIDO<br>DE <span class="accent">CAMISAS</span>
+    </h1>
+    <p class="page-sub">28ª Trilha dos Engenhos · 11 de Julho de 2026 · Aldeia, Camaragibe/PE</p>
+  </div>
+</section>
+
+<!-- ─────────────────── FORMULÁRIO ──────────────── -->
+<section class="form-area">
+  <div class="container">
+
+    <div id="form-wrap">
+
+      <!-- 01 · IDENTIFICAÇÃO -->
+      <div class="fc">
+        <div class="fc-label">01 · Identificação</div>
+        <div class="field-grid">
+          <div class="field">
+            <label for="nome">Nome completo *</label>
+            <input type="text" id="nome" placeholder="Seu nome completo">
+            <span class="field-err" id="err-nome">Campo obrigatório</span>
+          </div>
+          <div class="field">
+            <label for="funcao">Função *</label>
+            <select id="funcao">
+              <option value="">Selecione sua função</option>
+              <option value="Organização">Organização</option>
+              <option value="Apoio">Apoio</option>
+              <option value="Patrocinador">Patrocinador</option>
+              <option value="Socorro mecânico">Socorro mecânico</option>
+            </select>
+            <span class="field-err" id="err-funcao">Selecione sua função</span>
+          </div>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label for="whats">WhatsApp *</label>
+            <input type="tel" id="whats" placeholder="(81) 9 0000-0000">
+            <span class="field-err" id="err-whats">Campo obrigatório</span>
+          </div>
+          <div class="field">
+            <label for="email">E-mail (opcional)</label>
+            <input type="email" id="email" placeholder="seu@email.com">
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 · ITENS DO PEDIDO -->
+      <div class="fc">
+        <div class="fc-label">02 · Itens do pedido</div>
+
+        <div class="itens-lista" id="itens-lista">
+          <div class="lista-vazia" id="lista-vazia">Nenhum item adicionado ainda</div>
+        </div>
+        <span class="global-err" id="err-itens">Adicione pelo menos um item ao pedido</span>
+
+        <div class="divider"></div>
+
+        <!-- ADICIONAR ITEM -->
+        <div class="fc-label" style="margin-bottom:18px">Adicionar item</div>
+
+        <div class="tipo-grid">
+          <div class="tipo-card sel" id="tc-trilha" onclick="selTipo('trilha')">
+            <span class="tc-badge tc-b-oficial">Oficial</span>
+            <span class="tc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/>
+              </svg>
+            </span>
+            <div class="tc-nome">Camisa da Trilha</div>
+            <div class="tc-desc">Arte oficial 28ª edição</div>
+          </div>
+          <div class="tipo-card" id="tc-inst" onclick="selTipo('inst')">
+            <span class="tc-badge tc-b-extra">Extra</span>
+            <span class="tc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </span>
+            <div class="tc-nome">Institucional</div>
+            <div class="tc-desc">Anarquia Jipeira</div>
+          </div>
+        </div>
+
+        <div class="sub-label">Tamanho *</div>
+        <div class="sz-row" id="sz-row">
+          <button type="button" class="sz-btn" data-sz="PP"  onclick="selSz(this)">PP</button>
+          <button type="button" class="sz-btn" data-sz="P"   onclick="selSz(this)">P</button>
+          <button type="button" class="sz-btn" data-sz="M"   onclick="selSz(this)">M</button>
+          <button type="button" class="sz-btn" data-sz="G"   onclick="selSz(this)">G</button>
+          <button type="button" class="sz-btn" data-sz="GG"  onclick="selSz(this)">GG</button>
+          <button type="button" class="sz-btn" data-sz="XG"  onclick="selSz(this)">XG</button>
+          <button type="button" class="sz-btn" data-sz="XXG" onclick="selSz(this)">XXG</button>
+        </div>
+        <span class="global-err" id="err-sz">Selecione um tamanho</span>
+
+        <div class="qty-wrap">
+          <div class="sub-label">Quantidade</div>
+          <div class="qty-row">
+            <span class="qty-label">Quantas peças deste tamanho?</span>
+            <div class="qty-ctrl">
+              <button type="button" class="qty-btn" onclick="chQty(-1)">−</button>
+              <div class="qty-val" id="qval">1</div>
+              <button type="button" class="qty-btn" onclick="chQty(1)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn-add" onclick="addItem()">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Adicionar ao pedido
+        </button>
+      </div>
+
+      <!-- 03 · OBSERVAÇÕES -->
+      <div class="fc">
+        <div class="fc-label">03 · Observações</div>
+        <textarea id="obs" placeholder="Ex: entrega no evento, outras preferências..."></textarea>
+      </div>
+
+      <!-- RESUMO -->
+      <div class="resumo" id="resumo">
+        <div id="res-content">
+          <span class="res-empty">Adicione itens acima para ver o resumo do pedido</span>
+        </div>
+      </div>
+
+      <button type="button" class="btn-enviar" onclick="enviar()">
+        Enviar pedido
+        <span class="arrow">→</span>
+      </button>
+
+    </div><!-- /#form-wrap -->
+
+    <!-- SUCCESS -->
+    <div class="success-area" id="success-area">
+      <div class="success-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <h2 class="success-title">PEDIDO<br><span class="accent">REGISTRADO!</span></h2>
+      <p class="success-sub">A organização entrará em contato pelo WhatsApp para confirmar</p>
+      <div class="success-detail" id="success-detail"></div>
+      <button type="button" class="btn-novo" onclick="resetar()">
+        Novo pedido <span style="font-family:var(--font-mono);font-size:16px">→</span>
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─────────────────── FOOTER ──────────────────── -->
+<footer class="footer">
+  <div class="footer-bottom">
+    <span>© 2026 Trilha dos Engenhos · <strong>Anarquia Jipeira</strong></span>
+    <span>Aldeia · Camaragibe · Pernambuco</span>
+    <span>Pedido de camisas · <strong>Uso interno</strong></span>
+  </div>
+</footer>
+
+<script>
+/* ── Nav scroll ─────────────────────────── */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* ── Estado ─────────────────────────────── */
+let tipo = 'trilha', sz = null, qty = 1, itens = [], uid = 0;
+
+function selTipo(t) {
+  tipo = t;
+  document.getElementById('tc-trilha').classList.toggle('sel', t === 'trilha');
+  document.getElementById('tc-inst').classList.toggle('sel', t === 'inst');
+}
+
+function selSz(btn) {
+  document.querySelectorAll('#sz-row .sz-btn').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  sz = btn.dataset.sz;
+  document.getElementById('err-sz').style.display = 'none';
+}
+
+function chQty(d) {
+  qty = Math.max(1, qty + d);
+  document.getElementById('qval').textContent = qty;
+}
+
+function addItem() {
+  if (!sz) { document.getElementById('err-sz').style.display = 'block'; return; }
+  itens.push({ id: ++uid, tipo, sz, qty });
+  sz = null; qty = 1;
+  document.getElementById('qval').textContent = '1';
+  document.querySelectorAll('#sz-row .sz-btn').forEach(b => b.classList.remove('sel'));
+  document.getElementById('err-sz').style.display = 'none';
+  document.getElementById('err-itens').style.display = 'none';
+  renderLista();
+  renderResumo();
+}
+
+function removeItem(id) {
+  itens = itens.filter(i => i.id !== id);
+  renderLista();
+  renderResumo();
+}
+
+function renderLista() {
+  const lista = document.getElementById('itens-lista');
+  const vazio = document.getElementById('lista-vazia');
+  if (!itens.length) {
+    lista.innerHTML = '';
+    lista.appendChild(vazio);
+    vazio.style.display = 'block';
+    return;
+  }
+  vazio.style.display = 'none';
+  lista.innerHTML = itens.map(it => {
+    const cls = it.tipo === 'trilha' ? 'ib-trilha' : 'ib-inst';
+    const lbl = it.tipo === 'trilha' ? 'Trilha' : 'Institucional';
+    return `<div class="item-row">
+      <span class="item-badge ${cls}">${lbl}</span>
+      <span class="item-info">Tamanho <strong>${it.sz}</strong></span>
+      <span class="item-qty">${it.qty} PC${it.qty > 1 ? 'S' : ''}</span>
+      <button class="item-del" onclick="removeItem(${it.id})" aria-label="Remover item">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>`;
+  }).join('');
+}
+
+function renderResumo() {
+  const el = document.getElementById('res-content');
+  if (!itens.length) {
+    el.innerHTML = '<span class="res-empty">Adicione itens acima para ver o resumo do pedido</span>';
+    return;
+  }
+  const trilha = itens.filter(i => i.tipo === 'trilha');
+  const inst   = itens.filter(i => i.tipo === 'inst');
+  const total  = itens.reduce((a,i) => a + i.qty, 0);
+  let html = '';
+  if (trilha.length) {
+    html += `<div class="res-row head"><span>Camisa da Trilha</span><span>${trilha.reduce((a,i)=>a+i.qty,0)} pcs</span></div>`;
+    trilha.forEach(i => { html += `<div class="res-row indent"><span>Tamanho ${i.sz}</span><span>${i.qty}</span></div>`; });
+  }
+  if (inst.length) {
+    html += `<div class="res-row head"><span>Camisa Institucional</span><span>${inst.reduce((a,i)=>a+i.qty,0)} pcs</span></div>`;
+    inst.forEach(i => { html += `<div class="res-row indent"><span>Tamanho ${i.sz}</span><span>${i.qty}</span></div>`; });
+  }
+  html += `<div class="res-total"><span>Total</span><span>${total} peça${total > 1 ? 's' : ''}</span></div>`;
+  el.innerHTML = html;
+}
+
+function validate() {
+  let ok = true;
+  const show = (id, v) => { document.getElementById(id).style.display = v ? 'block' : 'none'; };
+  if (!document.getElementById('nome').value.trim())  { show('err-nome',true);   ok=false; } else show('err-nome',false);
+  if (!document.getElementById('funcao').value)       { show('err-funcao',true); ok=false; } else show('err-funcao',false);
+  if (!document.getElementById('whats').value.trim()) { show('err-whats',true);  ok=false; } else show('err-whats',false);
+  if (!itens.length)                                  { show('err-itens',true);  ok=false; } else show('err-itens',false);
+  return ok;
+}
+
+/* ── URL do Google Apps Script ───────────── */
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwcElf0f3gq1eTVT9eJKl1TnC73tnPjeAr8udgDekzMpvXZYM7crXy3mhjMi6Obd4Co/exec';
+
+function enviar() {
+  if (!validate()) return;
+
+  const nome   = document.getElementById('nome').value.trim();
+  const funcao = document.getElementById('funcao').value;
+  const whats  = document.getElementById('whats').value.trim();
+  const email  = document.getElementById('email').value.trim();
+  const obs    = document.getElementById('obs').value.trim();
+  const total  = itens.reduce((a,i) => a + i.qty, 0);
+
+  /* Serializa itens em texto legível para a planilha */
+  const itensTexto = itens.map(i =>
+    `${i.tipo === 'trilha' ? 'Trilha' : 'Institucional'} ${i.sz} x${i.qty}`
+  ).join(' | ');
+
+  /* Desabilita o botão e mostra feedback */
+  const btn = document.querySelector('.btn-enviar');
+  btn.textContent = 'Enviando...';
+  btn.disabled = true;
+
+  fetch(SHEET_URL, {
+    method: 'POST',
+    mode:   'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      nome, funcao, whatsapp: whats, email,
+      itens: itensTexto, observacoes: obs
+    })
+  })
+  .then(() => {
+    /* Monta tela de sucesso */
+    const linhas = itens.map(i =>
+      `<strong style="color:var(--amarelo)">${i.tipo === 'trilha' ? 'Trilha' : 'Institucional'}</strong> — ${i.sz}: ${i.qty} pc${i.qty>1?'s':''}`
+    ).join('<br>');
+    document.getElementById('form-wrap').style.display = 'none';
+    document.getElementById('success-area').style.display = 'block';
+    document.getElementById('success-detail').innerHTML =
+      `<strong>${nome}</strong> · ${funcao}<br>${whats}<br><br>${linhas}<br><br>` +
+      `<strong style="color:var(--amarelo)">Total: ${total} peça${total>1?'s':''}</strong>`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  })
+  .catch(() => {
+    btn.textContent = 'Erro ao enviar — tente novamente';
+    btn.disabled = false;
+  });
+}
+
+function resetar() {
+  itens = []; uid = 0; tipo = 'trilha'; sz = null; qty = 1;
+  ['nome','whats','email','obs'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('funcao').value = '';
+  document.getElementById('qval').textContent = '1';
+  selTipo('trilha');
+  document.querySelectorAll('#sz-row .sz-btn').forEach(b => b.classList.remove('sel'));
+  renderLista();
+  renderResumo();
+  document.getElementById('form-wrap').style.display = 'block';
+  document.getElementById('success-area').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin · Pedidos de Camisas · 28ª Trilha dos Engenhos</title>
+
+<link rel="icon" type="image/png" href="assets/logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+
+<style>
+/* ── RESET & VARS ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --verde-mata:  #2d3a1f;
+  --verde-folha: #4a5d2f;
+  --lama:        #5e3a1c;
+  --amarelo:     #f4c430;
+  --offwhite:    #f5f0e6;
+  --creme:       #ebe2d0;
+  --preto:       #141410;
+  --preto-suave: #232318;
+  --vermelho:    #c0392b;
+  --azul:        #185fa5;
+  --font-display:   'Anton', sans-serif;
+  --font-secondary: 'Bebas Neue', sans-serif;
+  --font-body:      'Outfit', sans-serif;
+  --font-mono:      'JetBrains Mono', monospace;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--preto);
+  color: var(--offwhite);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(rgba(244,196,48,.03) 1px, transparent 1px),
+    radial-gradient(rgba(45,58,31,.04) 1px, transparent 1px);
+  background-size: 24px 24px, 40px 40px;
+  background-position: 0 0, 12px 20px;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+::selection { background: var(--amarelo); color: var(--preto); }
+
+/* ── TELA DE LOGIN ── */
+#login-screen {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.login-box {
+  width: 100%; max-width: 400px;
+  background: var(--preto-suave);
+  border: 1px solid rgba(244,196,48,.15);
+  border-top: 3px solid var(--amarelo);
+  padding: 36px 32px;
+}
+.login-logo {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 28px;
+}
+.login-logo img { height: 40px; width: auto; }
+.login-logo-text {
+  font-family: var(--font-display);
+  font-size: 16px; letter-spacing: 0.02em; text-transform: uppercase; line-height: 1;
+}
+.login-logo-text span { color: var(--amarelo); }
+.login-title {
+  font-family: var(--font-secondary);
+  font-size: 28px; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--amarelo); margin-bottom: 6px;
+}
+.login-sub {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(245,240,230,.35); margin-bottom: 28px;
+}
+.login-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.login-field label {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(245,240,230,.45);
+}
+.login-field input {
+  font-family: var(--font-body); font-size: 15px;
+  color: var(--offwhite); background: rgba(245,240,230,.06);
+  border: 1.5px solid rgba(244,196,48,.2);
+  padding: 11px 14px; outline: none; border-radius: 0;
+  transition: border-color .15s;
+}
+.login-field input:focus { border-color: var(--amarelo); }
+.login-field input::placeholder { color: rgba(245,240,230,.2); }
+.login-err {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.1em; color: var(--vermelho);
+  display: none; margin-top: -8px; margin-bottom: 8px;
+}
+.btn-login {
+  width: 100%; padding: 14px;
+  font-family: var(--font-display); font-size: 20px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  background: var(--amarelo); color: var(--preto);
+  border: 2px solid var(--amarelo);
+  box-shadow: 4px 4px 0 var(--vermelho);
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer; transition: all .2s; border-radius: 0;
+}
+.btn-login:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--vermelho); }
+
+/* ── PAINEL PRINCIPAL ── */
+#admin-screen { display: none; }
+
+.topbar {
+  background: var(--preto-suave);
+  border-bottom: 1px solid rgba(244,196,48,.12);
+  padding: 14px 0;
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.topbar-logo {
+  display: flex; align-items: center; gap: 10px;
+}
+.topbar-logo img { height: 34px; width: auto; }
+.topbar-logo-text {
+  font-family: var(--font-display);
+  font-size: 15px; text-transform: uppercase; letter-spacing: 0.02em; line-height: 1;
+}
+.topbar-logo-text span { color: var(--amarelo); }
+.topbar-badge {
+  font-family: var(--font-mono);
+  font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+  background: rgba(244,196,48,.1); color: var(--amarelo);
+  border: 1px solid rgba(244,196,48,.25); padding: 3px 10px;
+}
+.topbar-actions { display: flex; align-items: center; gap: 10px; }
+.btn-refresh {
+  display: flex; align-items: center; gap: 7px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--amarelo); padding: 8px 14px;
+  border: 1px solid rgba(244,196,48,.3);
+  transition: all .2s; cursor: pointer; background: none;
+}
+.btn-refresh:hover { background: rgba(244,196,48,.08); }
+.btn-refresh svg { width: 14px; height: 14px; stroke: currentColor; flex-shrink: 0; }
+.btn-logout {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(245,240,230,.35); padding: 8px 14px;
+  border: 1px solid rgba(245,240,230,.1);
+  transition: all .2s; cursor: pointer; background: none;
+}
+.btn-logout:hover { color: var(--vermelho); border-color: var(--vermelho); }
+
+.main { max-width: 1200px; margin: 0 auto; padding: 32px 24px 60px; }
+
+/* ── CARDS DE TOTAIS ── */
+.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 28px; }
+.stat-card {
+  background: var(--preto-suave);
+  border: 1px solid rgba(244,196,48,.1);
+  border-top: 3px solid var(--verde-mata);
+  padding: 18px 20px;
+}
+.stat-card.destaque { border-top-color: var(--amarelo); }
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(245,240,230,.4); margin-bottom: 8px;
+}
+.stat-val {
+  font-family: var(--font-secondary);
+  font-size: 36px; letter-spacing: 0.02em;
+  color: var(--amarelo); line-height: 1;
+}
+.stat-sub {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  color: rgba(245,240,230,.3); margin-top: 4px;
+}
+
+/* ── FILTROS ── */
+.filters {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.filter-btn {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 7px 14px;
+  border: 1px solid rgba(245,240,230,.15);
+  color: rgba(245,240,230,.45);
+  background: none; cursor: pointer; transition: all .15s; border-radius: 0;
+}
+.filter-btn:hover { color: var(--offwhite); border-color: rgba(245,240,230,.3); }
+.filter-btn.active { background: var(--verde-mata); color: var(--amarelo); border-color: var(--verde-mata); }
+
+.search-wrap { margin-left: auto; }
+.search-wrap input {
+  font-family: var(--font-body); font-size: 13px;
+  color: var(--offwhite); background: rgba(245,240,230,.06);
+  border: 1px solid rgba(245,240,230,.15);
+  padding: 8px 14px; outline: none; border-radius: 0; width: 220px;
+  transition: border-color .15s;
+}
+.search-wrap input:focus { border-color: var(--amarelo); }
+.search-wrap input::placeholder { color: rgba(245,240,230,.25); }
+
+/* ── TABELA ── */
+.table-wrap {
+  background: var(--preto-suave);
+  border: 1px solid rgba(244,196,48,.1);
+  overflow-x: auto;
+}
+table { width: 100%; border-collapse: collapse; }
+thead tr {
+  background: var(--verde-mata);
+  border-bottom: 2px solid var(--amarelo);
+}
+thead th {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--amarelo); text-align: left;
+  padding: 12px 16px; white-space: nowrap;
+}
+tbody tr {
+  border-bottom: 1px solid rgba(245,240,230,.06);
+  transition: background .12s;
+}
+tbody tr:hover { background: rgba(244,196,48,.04); }
+tbody td {
+  font-size: 13px; color: rgba(245,240,230,.8);
+  padding: 12px 16px; vertical-align: top;
+}
+td.nome { font-weight: 600; color: var(--offwhite); }
+td.funcao-cell {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
+}
+td.itens-cell { max-width: 280px; line-height: 1.7; }
+td.ts { font-family: var(--font-mono); font-size: 11px; color: rgba(245,240,230,.35); white-space: nowrap; }
+
+.funcao-tag {
+  display: inline-block; padding: 2px 8px;
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.ft-org  { background: var(--verde-mata); color: var(--amarelo); }
+.ft-apo  { background: var(--lama); color: var(--offwhite); }
+.ft-pat  { background: rgba(24,95,165,.5); color: #90c0f8; }
+.ft-soc  { background: rgba(192,57,43,.4); color: #f5a59a; }
+
+.item-pill {
+  display: inline-block; margin: 2px 3px 2px 0;
+  padding: 2px 8px; font-size: 11px;
+  border: 1px solid rgba(244,196,48,.25);
+  color: rgba(245,240,230,.7);
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+.item-pill.trilha  { border-color: rgba(74,93,47,.6); color: var(--verde-folha); }
+.item-pill.inst    { border-color: rgba(94,58,28,.6); color: #c08050; }
+
+.whats-link {
+  color: rgba(245,240,230,.6); font-size: 13px;
+  display: flex; align-items: center; gap: 5px;
+  transition: color .15s;
+}
+.whats-link:hover { color: #25d366; }
+.whats-link svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+
+.empty-row td {
+  text-align: center; padding: 48px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(245,240,230,.2);
+}
+
+/* ── LOADING / ERROR ── */
+.loading-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(20,20,16,.75); backdrop-filter: blur(4px);
+  z-index: 200; align-items: center; justify-content: center;
+}
+.loading-overlay.show { display: flex; }
+.loading-box {
+  background: var(--preto-suave);
+  border: 1px solid rgba(244,196,48,.2);
+  border-top: 3px solid var(--amarelo);
+  padding: 28px 36px; text-align: center;
+}
+.loading-spin {
+  width: 36px; height: 36px;
+  border: 3px solid rgba(244,196,48,.2);
+  border-top-color: var(--amarelo);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  margin: 0 auto 14px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-txt {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--amarelo);
+}
+
+/* ── BTN EXPORTAR ── */
+.btn-export {
+  display: flex; align-items: center; gap: 7px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--verde-folha); padding: 8px 14px;
+  border: 1px solid rgba(74,93,47,.4);
+  transition: all .2s; cursor: pointer; background: none;
+}
+.btn-export:hover { background: rgba(74,93,47,.1); }
+.btn-export svg { width: 14px; height: 14px; stroke: currentColor; flex-shrink: 0; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 720px) {
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .search-wrap { margin-left: 0; width: 100%; }
+  .search-wrap input { width: 100%; }
+}
+@media (max-width: 480px) {
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .topbar-badge { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── LOADING OVERLAY ── -->
+<div class="loading-overlay" id="loading">
+  <div class="loading-box">
+    <div class="loading-spin"></div>
+    <div class="loading-txt">Carregando pedidos...</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TELA DE LOGIN
+══════════════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <img src="assets/logo.png" alt="Trilha dos Engenhos" onerror="this.style.display='none'">
+      <span class="login-logo-text">Trilha dos <span>Engenhos</span></span>
+    </div>
+    <div class="login-title">Painel Admin</div>
+    <div class="login-sub">Pedidos de camisas · 28ª edição · Uso restrito</div>
+
+    <div class="login-field">
+      <label for="inp-user">Usuário</label>
+      <input type="text" id="inp-user" placeholder="admin" autocomplete="username">
+    </div>
+    <div class="login-field">
+      <label for="inp-pass">Senha</label>
+      <input type="password" id="inp-pass" placeholder="••••••••" autocomplete="current-password"
+             onkeydown="if(event.key==='Enter') fazerLogin()">
+    </div>
+    <div class="login-err" id="login-err">Usuário ou senha incorretos</div>
+
+    <button class="btn-login" onclick="fazerLogin()">
+      Entrar <span style="font-family:var(--font-mono);font-size:16px">→</span>
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAINEL ADMIN
+══════════════════════════════════════ -->
+<div id="admin-screen">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-logo">
+        <img src="assets/logo.png" alt="Trilha dos Engenhos" onerror="this.style.display='none'">
+        <span class="topbar-logo-text">Trilha dos <span>Engenhos</span></span>
+      </div>
+      <span class="topbar-badge">Admin · Camisas</span>
+      <div class="topbar-actions">
+        <button class="btn-refresh" onclick="carregarDados()">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+            <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+          </svg>
+          Atualizar
+        </button>
+        <button class="btn-export" onclick="exportarCSV()">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Exportar CSV
+        </button>
+        <button class="btn-logout" onclick="logout()">Sair</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="main">
+
+    <!-- TOTALIZADORES -->
+    <div class="stats-row">
+      <div class="stat-card destaque">
+        <div class="stat-label">Total de pedidos</div>
+        <div class="stat-val" id="st-total">—</div>
+        <div class="stat-sub">formulários enviados</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Camisas da trilha</div>
+        <div class="stat-val" id="st-trilha">—</div>
+        <div class="stat-sub">peças no total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Camisas institucionais</div>
+        <div class="stat-val" id="st-inst">—</div>
+        <div class="stat-sub">peças no total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total de peças</div>
+        <div class="stat-val" id="st-pecas">—</div>
+        <div class="stat-sub">para produção</div>
+      </div>
+    </div>
+
+    <!-- FILTROS + BUSCA -->
+    <div class="filters">
+      <button class="filter-btn active" data-f="todos" onclick="setFiltro(this)">Todos</button>
+      <button class="filter-btn" data-f="Organização" onclick="setFiltro(this)">Organização</button>
+      <button class="filter-btn" data-f="Apoio" onclick="setFiltro(this)">Apoio</button>
+      <button class="filter-btn" data-f="Patrocinador" onclick="setFiltro(this)">Patrocinador</button>
+      <button class="filter-btn" data-f="Socorro mecânico" onclick="setFiltro(this)">Socorro mecânico</button>
+      <div class="search-wrap">
+        <input type="text" id="busca" placeholder="Buscar por nome ou WhatsApp..."
+               oninput="renderTabela()">
+      </div>
+    </div>
+
+    <!-- TABELA -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nome</th>
+            <th>Função</th>
+            <th>WhatsApp</th>
+            <th>Itens pedidos</th>
+            <th>Observações</th>
+            <th>Data/hora</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════
+   CONFIGURAÇÃO — altere aqui
+   ════════════════════════════════════════ */
+const SHEET_URL  = 'https://script.google.com/macros/s/AKfycbwcElf0f3gq1eTVT9eJKl1TnC73tnPjeAr8udgDekzMpvXZYM7crXy3mhjMi6Obd4Co/exec';
+
+/* Credenciais de acesso (troque antes de publicar) */
+const CREDENCIAIS = [
+  { user: 'admin',   pass: 'trilha2026' },
+  { user: 'roberio', pass: 'anarquia28' }
+];
+
+/* ════════════════════════════════════════
+   ESTADO
+   ════════════════════════════════════════ */
+let todosOsPedidos = [];
+let filtroAtual    = 'todos';
+
+/* ════════════════════════════════════════
+   LOGIN
+   ════════════════════════════════════════ */
+function fazerLogin() {
+  const u = document.getElementById('inp-user').value.trim().toLowerCase();
+  const p = document.getElementById('inp-pass').value;
+  const ok = CREDENCIAIS.some(c => c.user === u && c.pass === p);
+  if (!ok) {
+    document.getElementById('login-err').style.display = 'block';
+    document.getElementById('inp-pass').value = '';
+    return;
+  }
+  sessionStorage.setItem('admin_auth', '1');
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('admin-screen').style.display = 'block';
+  carregarDados();
+}
+
+function logout() {
+  sessionStorage.removeItem('admin_auth');
+  location.reload();
+}
+
+/* Verifica se já está autenticado */
+if (sessionStorage.getItem('admin_auth') === '1') {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('admin-screen').style.display = 'block';
+  carregarDados();
+}
+
+/* ════════════════════════════════════════
+   CARREGAR DADOS DO GOOGLE SHEETS
+   Via Apps Script publicado como Web App
+   ════════════════════════════════════════ */
+async function carregarDados() {
+  document.getElementById('loading').classList.add('show');
+
+  try {
+    /* Adiciona parâmetro de cache-busting */
+    const url = SHEET_URL + (SHEET_URL.includes('?') ? '&' : '?') + 'action=get&t=' + Date.now();
+    const res  = await fetch(url);
+    const json = await res.json();
+
+    /* Espera array de objetos com as chaves da planilha */
+    todosOsPedidos = Array.isArray(json) ? json : (json.data || []);
+  } catch (err) {
+    /* Fallback: se URL não configurada ainda, mostra dados de demo */
+    if (SHEET_URL === 'COLE_SUA_URL_AQUI') {
+      todosOsPedidos = dadosDemo();
+    } else {
+      todosOsPedidos = [];
+    }
+  }
+
+  renderStats();
+  renderTabela();
+  document.getElementById('loading').classList.remove('show');
+}
+
+/* ════════════════════════════════════════
+   DADOS DE DEMONSTRAÇÃO
+   (usados enquanto a URL não está configurada)
+   ════════════════════════════════════════ */
+function dadosDemo() {
+  return [
+    { timestamp:'16/05/2026 09:12', nome:'Robério Andrade', funcao:'Organização', whatsapp:'81996717733', email:'roberio@email.com', itens:'Trilha M x2 | Trilha G x1', observacoes:'' },
+    { timestamp:'16/05/2026 10:45', nome:'Evison Lima', funcao:'Apoio', whatsapp:'81985620552', email:'', itens:'Trilha P x1 | Institucional GG x1', observacoes:'Entrega no evento' },
+    { timestamp:'16/05/2026 11:03', nome:'Erasmo Morais', funcao:'Organização', whatsapp:'81998097828', email:'erasmo@email.com', itens:'Trilha M x1 | Institucional M x2', observacoes:'' },
+    { timestamp:'16/05/2026 14:22', nome:'Carlos Patrocínio', funcao:'Patrocinador', whatsapp:'81999990001', email:'', itens:'Trilha G x3', observacoes:'Entregar junto com o kit' },
+    { timestamp:'16/05/2026 15:55', nome:'João Socorro', funcao:'Socorro mecânico', whatsapp:'81999990002', email:'', itens:'Trilha XG x1', observacoes:'' },
+  ];
+}
+
+/* ════════════════════════════════════════
+   RENDER STATS
+   ════════════════════════════════════════ */
+function renderStats() {
+  document.getElementById('st-total').textContent = todosOsPedidos.length;
+
+  let trilha = 0, inst = 0;
+  todosOsPedidos.forEach(p => {
+    const partes = (p.itens || '').split('|');
+    partes.forEach(parte => {
+      const m = parte.trim().match(/x(\d+)$/i);
+      if (!m) return;
+      const qty = parseInt(m[1]);
+      if (parte.toLowerCase().includes('institucional')) inst += qty;
+      else trilha += qty;
+    });
+  });
+
+  document.getElementById('st-trilha').textContent = trilha;
+  document.getElementById('st-inst').textContent   = inst;
+  document.getElementById('st-pecas').textContent  = trilha + inst;
+}
+
+/* ════════════════════════════════════════
+   FILTRO
+   ════════════════════════════════════════ */
+function setFiltro(btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filtroAtual = btn.dataset.f;
+  renderTabela();
+}
+
+/* ════════════════════════════════════════
+   RENDER TABELA
+   ════════════════════════════════════════ */
+function renderTabela() {
+  const busca = (document.getElementById('busca').value || '').toLowerCase();
+  const tbody = document.getElementById('tbody');
+
+  const filtrado = todosOsPedidos.filter(p => {
+    const passaFiltro = filtroAtual === 'todos' || p.funcao === filtroAtual;
+    const passaBusca  = !busca ||
+      (p.nome      || '').toLowerCase().includes(busca) ||
+      (p.whatsapp  || '').toLowerCase().includes(busca);
+    return passaFiltro && passaBusca;
+  });
+
+  if (!filtrado.length) {
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="7">Nenhum pedido encontrado</td></tr>`;
+    return;
+  }
+
+  const funcaoClass = { 'Organização':'ft-org', 'Apoio':'ft-apo', 'Patrocinador':'ft-pat', 'Socorro mecânico':'ft-soc' };
+
+  tbody.innerHTML = filtrado.map((p, i) => {
+    const ftCls = funcaoClass[p.funcao] || 'ft-apo';
+    const itensHtml = (p.itens || '').split('|').map(parte => {
+      const t = parte.trim();
+      if (!t) return '';
+      const cls = t.toLowerCase().includes('institucional') ? 'inst' : 'trilha';
+      return `<span class="item-pill ${cls}">${t}</span>`;
+    }).join('');
+
+    const waLink = p.whatsapp
+      ? `<a class="whats-link" href="https://wa.me/55${p.whatsapp.replace(/\D/g,'')}" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.523 5.845L.057 23.273a.75.75 0 00.92.92l5.43-1.466A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.713 9.713 0 01-4.95-1.354l-.355-.211-3.676.992.99-3.594-.232-.37A9.713 9.713 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
+          </svg>
+          ${p.whatsapp}
+        </a>`
+      : '<span style="color:rgba(245,240,230,.2)">—</span>';
+
+    return `<tr>
+      <td style="color:rgba(245,240,230,.3);font-family:var(--font-mono);font-size:11px">${i+1}</td>
+      <td class="nome">${p.nome || '—'}</td>
+      <td class="funcao-cell"><span class="funcao-tag ${ftCls}">${p.funcao || '—'}</span></td>
+      <td>${waLink}</td>
+      <td class="itens-cell">${itensHtml || '—'}</td>
+      <td style="font-size:12px;color:rgba(245,240,230,.5);max-width:180px">${p.observacoes || '<span style="color:rgba(245,240,230,.2)">—</span>'}</td>
+      <td class="ts">${p.timestamp || '—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ════════════════════════════════════════
+   EXPORTAR CSV
+   ════════════════════════════════════════ */
+function exportarCSV() {
+  const headers = ['Timestamp','Nome','Função','WhatsApp','Email','Itens','Observações'];
+  const rows = todosOsPedidos.map(p => [
+    p.timestamp, p.nome, p.funcao, p.whatsapp, p.email, p.itens, p.observacoes
+  ].map(v => `"${(v||'').replace(/"/g,'""')}"`));
+
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `pedidos_camisas_28trilha_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+</script>
+</body>
+</html>
