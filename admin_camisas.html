@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <style>
 /* ── RESET & VARS ── */
@@ -393,11 +394,11 @@ td.ts { font-family: var(--font-mono); font-size: 11px; color: rgba(245,240,230,
           </svg>
           Atualizar
         </button>
-        <button class="btn-export" onclick="exportarCSV()">
+        <button class="btn-export" onclick="exportarXLS()">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
           </svg>
-          Exportar CSV
+          Exportar XLS
         </button>
         <button class="btn-logout" onclick="logout()">Sair</button>
       </div>
@@ -521,20 +522,15 @@ async function carregarDados() {
   document.getElementById('loading').classList.add('show');
 
   try {
-    /* Adiciona parâmetro de cache-busting */
-    const url = SHEET_URL + (SHEET_URL.includes('?') ? '&' : '?') + 'action=get&t=' + Date.now();
-    const res  = await fetch(url);
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000); // timeout 10s
+    const url = SHEET_URL + '?action=get&t=' + Date.now();
+    const res  = await fetch(url, { signal: controller.signal });
+    clearTimeout(timer);
     const json = await res.json();
-
-    /* Espera array de objetos com as chaves da planilha */
     todosOsPedidos = Array.isArray(json) ? json : (json.data || []);
   } catch (err) {
-    /* Fallback: se URL não configurada ainda, mostra dados de demo */
-    if (SHEET_URL === 'COLE_SUA_URL_AQUI') {
-      todosOsPedidos = dadosDemo();
-    } else {
-      todosOsPedidos = [];
-    }
+    todosOsPedidos = SHEET_URL === 'COLE_SUA_URL_AQUI' ? dadosDemo() : [];
   }
 
   renderStats();
@@ -642,21 +638,58 @@ function renderTabela() {
   }).join('');
 }
 
-/* ════════════════════════════════════════
-   EXPORTAR CSV
-   ════════════════════════════════════════ */
-function exportarCSV() {
-  const headers = ['Timestamp','Nome','Função','WhatsApp','Email','Itens','Observações'];
-  const rows = todosOsPedidos.map(p => [
-    p.timestamp, p.nome, p.funcao, p.whatsapp, p.email, p.itens, p.observacoes
-  ].map(v => `"${(v||'').replace(/"/g,'""')}"`));
+function exportarXLS() {
+  if (!todosOsPedidos.length) { alert('Nenhum pedido para exportar.'); return; }
 
-  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `pedidos_camisas_28trilha_${new Date().toISOString().slice(0,10)}.csv`;
-  a.click();
+  /* Monta array de linhas */
+  const cabecalho = ['Timestamp','Nome','Função','WhatsApp','Email','Itens','Observações'];
+  const linhas = todosOsPedidos.map(p => [
+    p.timestamp || '', p.nome || '', p.funcao || '',
+    p.whatsapp  || '', p.email || '', p.itens  || '', p.observacoes || ''
+  ]);
+
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet([cabecalho, ...linhas]);
+
+  /* Larguras de coluna */
+  ws['!cols'] = [
+    {wch:20},{wch:28},{wch:18},{wch:16},{wch:28},{wch:60},{wch:30}
+  ];
+
+  /* Aba de resumo por tamanho */
+  const tamanhos = ['PP','P','M','G','GG','XG','XXG'];
+  const resumo = {};
+  tamanhos.forEach(t => { resumo[t] = { trilha: 0, inst: 0 }; });
+
+  todosOsPedidos.forEach(p => {
+    (p.itens || '').split('|').forEach(parte => {
+      const m = parte.trim().match(/^(Trilha|Institucional)\s+(\w+)\s+x(\d+)$/i);
+      if (!m) return;
+      const tipo = m[1].toLowerCase().includes('institucional') ? 'inst' : 'trilha';
+      const sz   = m[2].toUpperCase();
+      const qty  = parseInt(m[3]);
+      if (resumo[sz]) resumo[sz][tipo] += qty;
+    });
+  });
+
+  const wsRes = XLSX.utils.aoa_to_sheet([
+    ['Tamanho','Camisa da Trilha','Institucional','Total'],
+    ...tamanhos.map(t => [
+      t, resumo[t].trilha, resumo[t].inst, resumo[t].trilha + resumo[t].inst
+    ]),
+    ['TOTAL',
+      tamanhos.reduce((a,t)=>a+resumo[t].trilha,0),
+      tamanhos.reduce((a,t)=>a+resumo[t].inst,0),
+      tamanhos.reduce((a,t)=>a+resumo[t].trilha+resumo[t].inst,0)
+    ]
+  ]);
+  wsRes['!cols'] = [{wch:12},{wch:20},{wch:20},{wch:12}];
+
+  XLSX.utils.book_append_sheet(wb, ws,    'Pedidos');
+  XLSX.utils.book_append_sheet(wb, wsRes, 'Resumo por tamanho');
+
+  const data = new Date().toISOString().slice(0,10);
+  XLSX.writeFile(wb, `pedidos_camisas_28trilha_${data}.xlsx`);
 }
 </script>
 </body>

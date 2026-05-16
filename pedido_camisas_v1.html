@@ -724,14 +724,10 @@ function removeItem(id) {
 
 function renderLista() {
   const lista = document.getElementById('itens-lista');
-  const vazio = document.getElementById('lista-vazia');
   if (!itens.length) {
-    lista.innerHTML = '';
-    lista.appendChild(vazio);
-    vazio.style.display = 'block';
+    lista.innerHTML = '<div class="lista-vazia" id="lista-vazia">Nenhum item adicionado ainda</div>';
     return;
   }
-  vazio.style.display = 'none';
   lista.innerHTML = itens.map(it => {
     const cls = it.tipo === 'trilha' ? 'ib-trilha' : 'ib-inst';
     const lbl = it.tipo === 'trilha' ? 'Trilha' : 'Institucional';
