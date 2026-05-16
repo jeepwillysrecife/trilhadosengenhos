@@ -686,6 +686,10 @@ function selTipo(t) {
   tipo = t;
   document.getElementById('tc-trilha').classList.toggle('sel', t === 'trilha');
   document.getElementById('tc-inst').classList.toggle('sel', t === 'inst');
+  /* Limpa tamanho ao trocar tipo para evitar inconsistência no resumo */
+  sz = null;
+  document.querySelectorAll('#sz-row .sz-btn').forEach(b => b.classList.remove('sel'));
+  document.getElementById('err-sz').style.display = 'none';
 }
 
 function selSz(btn) {
